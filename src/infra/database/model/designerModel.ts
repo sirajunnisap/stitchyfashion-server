@@ -11,7 +11,7 @@ const designerSchema= new Schema<Designer> ({
     name:{type:String , required:true},
     email:{type:String , required:true},
     phone:{type:Number , required:true},
-    password:{type:String , required:true},
+    password:{type:String},
     image: {type:String},
     isBlocked:{type:Boolean, default:false},
     isMailVerified:{type:Boolean, default:false},

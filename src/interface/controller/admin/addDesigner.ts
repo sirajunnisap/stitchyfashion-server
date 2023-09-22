@@ -17,31 +17,47 @@ export const designerRegister =async (req:Request ,res:Response) => {
         
         const designer: Designer = req.body
 
-        if(!designer.name || !designer.email || !designer.password ||
-            /^\s*$/.test(designer.name)|| 
-            /^\s*$/.test(designer.email)|| 
-            /^\s*$/.test(designer.password)){
-                throw new AppError('all field are required',400)
-            }
-        if(designer.password.length<6){
-            throw new AppError('password must be at least 6 digits',400)
-        }
-
-        console.log(designer,'designer details');
        
+
+        console.log(designer,"designer data for adding");
         
+        // if(!designer.name || !designer.email ||
+        //     /^\s*$/.test(designer.name)|| 
+        //     /^\s*$/.test(designer.email)){
+        //         throw new AppError('all field are required',400)
+        //     }
+      
+
+        
+        let password = Math.random().toString().substr(-10)
+
+        console.log(password);
         
 
         const createdDesigner:Designer = await addDesigner(designerRepository)(designer)
+
+        console.log(createdDesigner,"designer creted");
+      
         if(!createdDesigner){
             res.status(500).json({message:'something went wrong'})
         }
+         
+        const designerEmail = createdDesigner.email
+        console.log(designerEmail,"designer email for creating password");
         
+        const addPassword = await designerModel.findOneAndUpdate({email:designerEmail},{$set:{password:password}},{new:true})
+        console.log(addPassword,"password add to the designer data");
+        
+
         if (emailValidator.validate(designer.email)) {
             console.log(`${designer.email} is a valid email address.`);
 
-            sendVerifyEmail(req.body.name, req.body.email,createdDesigner._id,createdDesigner.password);
-
+            if (addPassword && addPassword.password) {
+                sendVerifyEmail(req.body.name, req.body.email, createdDesigner._id, addPassword.password);
+              } else {
+                console.log('Password not found in addPassword');
+                
+              }
           } else {
             console.log(`${designer.email} is not a valid email address.`);
           }

@@ -5,6 +5,7 @@ import { profileUpdate, userProfile } from "../controller/user/userDetails";
 import {userAuthenticateToken} from "../middleware/authMiddleware";
 import { CategoryDetails, CourseDetails, getAllCategories, getAllCourses } from "../controller/course/CourseDetails";
 import { getDesigner } from "../controller/designer/designerData";
+import { pricing } from "../controller/course/pricing";
 
 
 const userRoute = express.Router();
@@ -23,4 +24,5 @@ userRoute.get('/courseDetails/:id',CourseDetails)
 userRoute.get('/getCategories',getAllCategories)
 userRoute.get('/categoryDetails/:id',CategoryDetails)
 userRoute.get('/getDesignerById/:id',getDesigner)
+userRoute.get('/pricing/:id',pricing)
 export default userRoute;

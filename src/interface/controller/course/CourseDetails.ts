@@ -85,7 +85,7 @@ export const CategoryDetails = async(req:Request,res:Response)=>{
         
         res.status(200).json(categoryData)
         return
-    } catch (error) {                                                                                                                                               
+    } catch (error:any) {                                                                                                                                               
         console.error(error);
         res.status(500).json({ error: 'Internal server error.' });
     }

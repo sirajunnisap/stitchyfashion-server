@@ -9,7 +9,9 @@ export const addDesigner = (designerRepository:designerRepository) =>{
         if(isDesignerExist){
             throw new AppError('designer is already exist',409)
         }
-        const createdDesigner = await designerRepository.createDesigner(designer)
+        const createdDesigner:Designer = await designerRepository.createDesigner(designer)
+        console.log(createdDesigner,"creted designer");
+        
         return createdDesigner
     }
 } 

@@ -19,6 +19,17 @@ export const categoryAdding = (categoryRepository:categoryRepository)=>{
     
 }
 
+export const categoryEditUse = (categoryRepository:categoryRepository)=>{
+    return async(id:string,categoryData:object):Promise<object|null>=>{
+        try {
+            const updatedCategory:object|null = await categoryRepository.editCategory(id,categoryData)
+            return updatedCategory;
+
+        } catch (error) {
+            throw error
+        }
+    }
+}
 
 export const getCategories = (categoryRepository:categoryRepository)=>
 async():Promise<object|null>=>{

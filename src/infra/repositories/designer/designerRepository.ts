@@ -17,7 +17,7 @@ export type designerRepository = {
 const designerRepositoryImp = (DesignerModel:MongoDBDesigner):designerRepository=>{
 
     const createDesigner = async(designer:Designer):Promise<Designer>=>{
-        console.log(designer);
+        console.log(designer,"designer data in reposigoriy");
         
         let newDesigner = await designerModel.create(designer)
         return newDesigner

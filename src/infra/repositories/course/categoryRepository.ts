@@ -3,8 +3,9 @@ import { MongoDBCategory } from "../../database/model/categoryModel";
 
 export type categoryRepository = {
     addCategory :(category:Category)=>Promise<Category>;
-    findCategoryByName:(name:string)=>Promise<Category|null>
-    getAllCategories:()=>Promise<object[]|null>
+    findCategoryByName:(name:string)=>Promise<Category|null>;
+    editCategory:(id:string,categoryDetails:object)=>Promise<object|null>
+    getAllCategories:()=>Promise<object[]|null>;
     findCategoryById:(id:string)=>Promise<Category>;
 }
 
@@ -37,7 +38,14 @@ const categoryRepositoryImp = (categoryModel:MongoDBCategory):categoryRepository
         const category = await categoryModel.findById(categoryId)
         return category
     }
-    return {addCategory,findCategoryByName,getAllCategories,findCategoryById}
+
+
+    const editCategory = async(id:string, categoryDetails:object):Promise<object|null>=>{
+        const updatedCategory: object|null = await categoryModel.findByIdAndUpdate(id,categoryDetails,{new:true})
+        return updatedCategory
+    }
+
+    return {addCategory,findCategoryByName,getAllCategories,findCategoryById,editCategory}
 }
 
 
