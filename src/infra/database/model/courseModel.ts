@@ -1,6 +1,5 @@
-import mongoose,{ Document,Model,Schema ,ObjectId, Mongoose} from "mongoose";
+import mongoose,{ Document,Model,Schema} from "mongoose";
 import { Course } from "../../../domain/entities/courseModel";
-import { designerModel } from "./designerModel";
 
 export type MongoDBCourse = Model<Document<any, any, any >& Course>
 
@@ -8,7 +7,7 @@ const courseSchema = new Schema<Course>({
     title:{type:String,required:true},
     description:{type:String,required:true},
     designer:{type:mongoose.Schema.Types.ObjectId, ref: 'Designer' },
-    category:{type:mongoose.Schema.Types.ObjectId, ref: 'Category', },
+    category:{type:mongoose.Schema.Types.ObjectId, ref: 'Category' },
     courseFee:{type:Number,required:true},
     image:{type:String},
     duration:{type:String,required:true},

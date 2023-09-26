@@ -11,12 +11,12 @@ const designerRepository = designerRepositoryImp(db)
 export const designerProfile = async (req: CustomRequest, res: Response) => {
     try {
         const designerId: string | undefined = req.user?.designer._id as string;
-console.log(designerId,"designerIdfor profile");
+// console.log(designerId,"designerIdfor profile");
 
         
         const designerData = await getDesignerById(designerRepository)(designerId);
 
-        console.log(designerData,"designerData");
+        // console.log(designerData,"designerData");
         
         res.status(200).json(designerData);
     } catch (error: any) {
@@ -27,10 +27,10 @@ console.log(designerId,"designerIdfor profile");
 export const profileUpdate =async (req:CustomRequest,res:Response) => {
    try {
     const designerId:string| undefined = req.user?.designer._id as string
-    console.log(designerId,"designerid for profileupdate");
+    // console.log(designerId,"designerid for profileupdate");
     
     const data = req.body as object | any
-    console.log(data,"designerdata for profile updation");
+    // console.log(data,"designerdata for profile updation");
 
     const designerData:object = {
         name:data.name as string,
@@ -40,12 +40,12 @@ export const profileUpdate =async (req:CustomRequest,res:Response) => {
         field:data.field as string,
         aboutMe:data.aboutMe as string
     }
-console.log(designerData,"designerdata");
+// console.log(designerData,"designerdata");
 
     const updatedProfile = await updateProfile(designerRepository)(designerId,designerData)
     if(updatedProfile){
 
-        console.log("designer data updated successfully",updatedProfile);
+        // console.log("designer data updated successfully",updatedProfile);
         
         res.status(200).json(updatedProfile)
     }   
@@ -59,10 +59,10 @@ console.log(designerData,"designerdata");
 export const getDesigner =async (req:Request,res:Response)=>{
  try {
     const designerId:string|undefined = req.params.id as string
-    console.log(designerId,"designeridforgetdata");
+    // console.log(designerId,"designeridforgetdata");
     
     const designer = await getDesignerById(designerRepository)(designerId)
-    console.log(designer,"designer data by designerid ");
+    // console.log(designer,"designer data by designerid ");
 
     res.status(200).json(designer)
     return 

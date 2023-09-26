@@ -21,7 +21,7 @@ export const addCategory = async(req:Request,res:Response)=>{
         
         
         const CategoryData = req.body
-        console.log(CategoryData,"category data for add");
+        // console.log(CategoryData,"category data for add");
         
 
         const addedCategory:Category = await categoryAdding(categoryRepository)(CategoryData)
@@ -50,7 +50,7 @@ export const editCategory = async(req:Request,res:Response)=>{
         }
 
         const updatedCategory = await categoryEditUse(categoryRepository)(categoryId,categoryData)
-        console.log(updatedCategory);
+        // console.log(updatedCategory);
         
         if(updatedCategory){
             res.status(200).json(updatedCategory)

@@ -29,7 +29,7 @@ export const userSignup =async (req:Request ,res:Response) => {
             throw new AppError('password must be at least 6 digits',400)
         }
 
-        console.log(user,'user details');
+        // console.log(user,'user details');
        
         
         

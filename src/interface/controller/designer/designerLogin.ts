@@ -18,7 +18,7 @@ export type designerLoginType = {
 export const designerLogin = async(req:Request,res:Response)=>{
     try {
         const designer:Designer = req.body
-        console.log(designer,"designer");
+        // console.log(designer,"designer");
         
         const {email,password} = designer
         if(!email || !password || /^\s*$/.test(email) || /^\s*$/.test(password)){
@@ -26,7 +26,7 @@ export const designerLogin = async(req:Request,res:Response)=>{
         }
         
         const designerToken = await loginDesigner(designerRepository)(designer)
-        console.log(designerToken,"designerToken");
+        // console.log(designerToken,"designerToken");
         
         res.status(200).json(designerToken)
     } catch (error:any) {

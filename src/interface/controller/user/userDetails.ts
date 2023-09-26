@@ -12,11 +12,11 @@ export const userProfile = async (req:CustomRequest, res: Response) => {
     try {
             
         const userId: string | undefined = req.user?.user._id as string;
-        console.log(userId,"userId");
+        // console.log(userId,"userId dddddd");
         
         const userData = await getUserById(userRepository)(userId);
 
-        console.log(userData,"userData");
+        // console.log(userData,"userData");
 
         res.status(200).json(userData);
 
@@ -29,10 +29,10 @@ export const profileUpdate =async (req:CustomRequest,res:Response) => {
    try {
     const userId:string| undefined = req.user?.user._id as string
 
-    console.log(userId,"userIdforupdation");
+    // console.log(userId,"userIdforupdation");
     
     const data = req.body as object | any
-    console.log(data,"userData for profile updation");
+    // console.log(data,"userData for profile updation");
 
     const userData:object = {
         name:data.name as string,
@@ -42,10 +42,10 @@ export const profileUpdate =async (req:CustomRequest,res:Response) => {
         image:data.image as string
     }
     const updatedProfile = await updateProfile(userRepository)(userId,userData)
-    console.log(updatedProfile,"updated profile");
+    // console.log(updatedProfile,"updated profile");
     
     if(updatedProfile){
-        console.log("user data updated successfully");
+        // console.log("user data updated successfully");
         
         res.status(200).json(updatedProfile)
     }   

@@ -26,19 +26,19 @@ export const addCourse = async(req:CustomRequest,res:Response)=>{
        
         
         const designerId = req.user?.designer._id
-        console.log(designerId,"designerid");
+        // console.log(designerId,"designerid");
         
         const {title,description,duration,category,level,courseFee} = req.body
-        console.log(category,"categorydetail");
+        // console.log(category,"categorydetail");
         
         const categoryObj = await categoryModel.findOne({name:category});
 
         const courseData = req.body
-        console.log(courseData,"course data for add");
+        // console.log(courseData,"course data for add");
         courseData.designer = designerId
         courseData.category = categoryObj
 
-        console.log(courseData,"courseData for adding");
+        // console.log(courseData,"courseData for adding");
         
         const addedCourse:Course = await courseAdding(courseRepository)(courseData)
         if(!addedCourse){
@@ -57,7 +57,7 @@ export const addCourse = async(req:CustomRequest,res:Response)=>{
 export const addClasses =async(req:Request,res:Response)=>{
     try {
 
-        console.log(req.body,"body data");
+        // console.log(req.body,"body data");
     
         const classData= req.body
     
@@ -85,7 +85,7 @@ export const CourseDetails = async(req:CustomRequest,res:Response)=>{
         const courseId:string|undefined = req.params.id as string
 
         const courseData = await findOneById(courseRepository)(courseId)
-        console.log(courseData,"courseDetails ");
+        // console.log(courseData,"courseDetails ");
         
         res.status(200).json(courseData)
 
@@ -115,7 +115,7 @@ export const courseUpdate = async (req: Request, res: Response) => {
     try {
       const CourseData = req.body;
       const courseId = req.params.id; 
-  console.log(CourseData,courseId,"courseupdate datas");
+//   console.log(CourseData,courseId,"courseupdate datas");
   
       const courseData: object = {
         title: CourseData.title as string,

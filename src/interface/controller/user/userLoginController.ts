@@ -29,7 +29,7 @@ export const userLogin = async (req:Request, res:Response)=>{
 
         const userToken = await loginUser(userRepository)(user)
         
-        console.log(userToken,"userToken in contoller");
+        // console.log(userToken,"userToken in contoller");
         
         res.status(200).json(userToken)
 
@@ -45,14 +45,14 @@ export const loginWithGoogle =async (req:Request,res:Response)=>{
     try {
 
         const user :User = req.body
-        console.log(user,"user from body");
+        // console.log(user,"user from body");
         
         // const {name,email,phone} = user
         const token = await loginGoogle(userRepository)(user)
-        console.log(token,"token form google ");
+        // console.log(token,"token form google ");
         
         if(token){
-            console.log("loginwithgooglesuccessfull");
+            // console.log("loginwithgooglesuccessfull");
             
            
         }
@@ -66,13 +66,13 @@ export const loginWithGoogle =async (req:Request,res:Response)=>{
 export const forgetPassword = async(req:Request,res:Response)=>{
     try {
        const {email} = req.body 
-       console.log(email,"email for changepassword");
+    //    console.log(email,"email for changepassword");
 
         const user = await userModel.findOne({email})
-        console.log(user,"user for changepassword");
+        // console.log(user,"user for changepassword");
         
         if(!user){
-            console.log("user is not exist ");
+            // console.log("user is not exist ");
             
            
             return res.status(404).json({message:"user not found"})
@@ -110,21 +110,21 @@ export const verifyOtp = async (req: Request, res: Response) => {
           { $set: { otp: '' } },
           { new: true }
         );
-        console.log("OTP deleted", deleteOtp);
+        // console.log("OTP deleted", deleteOtp);
   
         if (deleteOtp) {
-          console.log(deleteOtp._id, "userId");
+        //   console.log(deleteOtp._id, "userId");
           return res.status(200).json({ userId: deleteOtp._id });
         } else {
-          console.log("User not found for the provided OTP");
+        //   console.log("User not found for the provided OTP");
           return res.status(404).json({ message: "User not found for the provided OTP" });
         }
       } else {
-        console.log("Invalid OTP");
+        // console.log("Invalid OTP");
         return res.status(404).json({ message: "Invalid OTP" });
       }
     } catch (error) {
-      console.error("Error:", error);
+    //   console.error("Error:", error);
       res.status(500).json({ message: "Verification failed" });
     }
   };
@@ -132,11 +132,11 @@ export const verifyOtp = async (req: Request, res: Response) => {
 export const changePassword = async(req:Request,res:Response)=>{
     try {
         const { password, userId } = req.body;
-        console.log(password, userId, "new password and user id");
+        // console.log(password, userId, "new password and user id");
     
         // Find the user by their userId
         const findUserById = await userModel.findById(userId);
-        console.log(findUserById, "user for update password");
+        // console.log(findUserById, "user for update password");
     
         if (!findUserById) {
           return res.status(404).json({ message: "User not found" });
@@ -151,7 +151,7 @@ export const changePassword = async(req:Request,res:Response)=>{
           { new: true }
         );
     
-        console.log(updatedUser, "updated user");
+        // console.log(updatedUser, "updated user");
     
         return res.status(200).json({ message: "Password updated successfully" });
     } catch (error) {
@@ -183,7 +183,7 @@ const sendVerifyEmail = async ( email:string,message:string, otp:string) => {
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log("Email has been sent:", info.response);
+        // console.log("Email has been sent:", info.response);
 
 
     } catch (error) {

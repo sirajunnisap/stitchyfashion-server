@@ -7,6 +7,7 @@ import { designerAuthenticateToken } from "../middleware/authMiddleware";
 import { uploadImage } from "../controller/designer/uploadTutorials";
 import { getAllCategories } from "../controller/course/getCategories";
 import { verifyEmail } from "../controller/admin/addDesigner";
+import { getPaymentedUsers } from "../controller/course/payment";
 
 
 
@@ -29,4 +30,7 @@ designerRoute.post("/uploadImage", (req, res) => {
       .then((url) => res.send(url))
       .catch((err) => res.status(500).send(err));
   });
+
+designerRoute.get('/getPaymentedUsers/:id',getPaymentedUsers)
+designerRoute.get('/paymentedUsersList/:id',getPaymentedUsers)
 export default designerRoute

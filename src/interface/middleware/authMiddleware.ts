@@ -8,10 +8,12 @@ export interface CustomRequest extends Request {
 
 export const userAuthenticateToken  = (req:CustomRequest,res:Response,next:NextFunction)=>{
     try {
-        const authHeader  = req.headers.authorization;
+        const authHeader  = req.headers.user as string
+        // console.log(authHeader,'auth headder');
+        
         const secretKey = process.env.JWT_SECRET_KEY;
     
-        console.log(authHeader,"asdfghjk");
+        // console.log(authHeader,"asdfghjk");
         
         if(!authHeader || !secretKey){
             return res.send(401).json({success:false,message:'not authenticated',Auth:false})
@@ -19,7 +21,7 @@ export const userAuthenticateToken  = (req:CustomRequest,res:Response,next:NextF
     
         const token = authHeader.split(' ')[1];
 
-        console.log(token,"1234567890");
+        // console.log(token,"1234567890");
         
         jwt.verify(token,secretKey as string , (err:any,user:any)=>{
             if(err){
@@ -39,19 +41,19 @@ export const adminAuthenticateToken = (req:CustomRequest,res:Response,next:NextF
     try {
         const authHeader = req.headers.authorization
         const secretKey =process.env.JWT_SECRET_KEY_ADMIN;
-        console.log(secretKey);
+        // console.log(secretKey);
         
         
 
 
-        console.log(authHeader,"authheader admin");
+        // console.log(authHeader,"authheader admin");
         
         if(!authHeader || !secretKey){
             return res.send(401).json({success:false,message:'not authenticated',Auth:false})
         }
         const token = authHeader.split(' ')[1]
 
-        console.log(token,"token from authheader spliting admin");
+        // console.log(token,"token from authheader spliting admin");
         
         
         jwt.verify(token,secretKey,(err:any,admin:any)=>{
@@ -71,16 +73,16 @@ export const adminAuthenticateToken = (req:CustomRequest,res:Response,next:NextF
 
 export const designerAuthenticateToken = (req:CustomRequest,res:Response,next:NextFunction)=>{
     try {
-        const authHeader = req.headers.authorization
+        const authHeader = req.headers.designer as string
         const secretKey = process.env.JWT_SECRET_KEY_DESIGNER;
 
-        console.log(authHeader,"auth header");
+        // console.log(authHeader,"auth header");
         
         if(!authHeader || !secretKey){
             return res.send(401).json({success:false,message:'not authenticated',Auth:false})
         }
         const token = authHeader.split(' ')[1]
-        console.log(token , "token ");
+        // console.log(token , "token ");
         
         jwt.verify(token,secretKey as string ,(err:any,designer:any)=>{
             if(err){
