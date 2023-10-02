@@ -12,8 +12,10 @@ export type categoryRepository = {
 const categoryRepositoryImp = (categoryModel:MongoDBCategory):categoryRepository=>{
     const addCategory = async (category:Category):Promise<Category>=>{
         try {
+
+            
             const addedCategory = await categoryModel.create(category);
-            console.log(addedCategory,"added category");
+            // console.log(addedCategory,"added category");
             return addedCategory
             
         } catch (error) {
@@ -22,8 +24,8 @@ const categoryRepositoryImp = (categoryModel:MongoDBCategory):categoryRepository
         }
     }
     const findCategoryByName = async (name:string):Promise<Category|null>=>{
-        const title = name.toUpperCase()
-        const category = await categoryModel.findOne({title});
+        // const title = name.toUpperCase()
+        const category = await categoryModel.findOne({name});
         return category
     }
    

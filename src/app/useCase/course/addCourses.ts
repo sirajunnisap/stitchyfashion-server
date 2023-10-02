@@ -24,7 +24,7 @@ export const addClassUseCase = (courseRepository:courseRepository)=>{
 
         
         const isClassExist = await courseRepository.findClassByTitle(classes.title)
-        console.log(isClassExist,"class already exist");
+        // console.log(isClassExist,"class already exist");
         
         if(isClassExist){
             throw new AppError('class is already exist',409)

@@ -19,7 +19,7 @@ export const designerRegister =async (req:Request ,res:Response) => {
 
        
 
-        console.log(designer,"designer data for adding");
+        // console.log(designer,"designer data for adding");
         
         // if(!designer.name || !designer.email ||
         //     /^\s*$/.test(designer.name)|| 
@@ -36,21 +36,21 @@ export const designerRegister =async (req:Request ,res:Response) => {
 
         const createdDesigner:Designer = await addDesigner(designerRepository)(designer)
 
-        console.log(createdDesigner,"designer creted");
+        // console.log(createdDesigner,"designer creted");
       
         if(!createdDesigner){
             res.status(500).json({message:'something went wrong'})
         }
          
         const designerEmail = createdDesigner.email
-        console.log(designerEmail,"designer email for creating password");
+        // console.log(designerEmail,"designer email for creating password");
         
         const addPassword = await designerModel.findOneAndUpdate({email:designerEmail},{$set:{password:password}},{new:true})
-        console.log(addPassword,"password add to the designer data");
+        // console.log(addPassword,"password add to the designer data");
         
 
         if (emailValidator.validate(designer.email)) {
-            console.log(`${designer.email} is a valid email address.`);
+            // console.log(`${designer.email} is a valid email address.`);
 
             if (addPassword && addPassword.password) {
                 sendVerifyEmail(req.body.name, req.body.email, createdDesigner._id, addPassword.password);

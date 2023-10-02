@@ -15,3 +15,17 @@ export const getUsersfromPymt = (paymentRepository:paymentRepository)=>{
         return usersList
     }
 }
+
+export const purchasedCoursesUse = (paymentRepository:paymentRepository)=>{
+    return async(userId:any):Promise<Payment[]|undefined>=>{
+        const purchaseCourses = await paymentRepository.findPurchasedCourse(userId)
+        return purchaseCourses
+    }
+}
+
+export const getpaymentUserUser = (paymentRepository:paymentRepository)=>{
+    return async(userId:any,courseId:any):Promise<Payment[]|undefined>=>{
+        const paymentedUser = await paymentRepository.getPaymentedUser(userId,courseId)
+        return paymentedUser
+    }
+}

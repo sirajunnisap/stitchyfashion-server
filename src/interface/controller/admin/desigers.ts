@@ -2,7 +2,7 @@ import { Request,Response } from "express";
 import { designerModel } from "../../../infra/database/model/designerModel";
 import designerRepositoryImp from "../../../infra/repositories/designer/designerRepository";
 import { AppError } from "../../../utils/errorHandle";
-import { getDesigners, isBlockDesigner } from "../../../app/useCase/admin/getDesigners";
+import { getDesigners, isBlockDesigner, searchUsecase } from "../../../app/useCase/admin/getDesigners";
 
 const db = designerModel;
 const designerRepository = designerRepositoryImp(db)
@@ -39,5 +39,26 @@ export const blockDesigner = async(req:Request,res:Response)=>{
         }
     } catch (error:any) {
         res.status(error.statusCode||500).json({message:error.message|| "something went wrong"})
+    }
+}
+
+
+
+export const searchDesigners = async (req: Request, res: Response) => {
+    try {
+        const searchQuery = req.query.q as string
+
+        const sort = req.query.sort
+        let sortCriteria: object = {}
+        if (sort === 'name-1') sortCriteria = { name: 1 }
+        else if (sort === 'name1') sortCriteria = { name: -1 }
+        else sortCriteria = {}
+
+        const result = await searchUsecase(designerRepository)(searchQuery, sortCriteria)
+        res.status(200).json(result)
+
+    } catch (error: any) {
+        console.log(error)
+        res.status(error.statusCode || 500).json({ message: error.message || 'Somthing went wrong' })
     }
 }

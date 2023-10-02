@@ -22,11 +22,11 @@ export type courseRepository = {
 const courseRepositoryImp = (courseModel: MongoDBCourse): courseRepository=>{
 
     const addCourse = async (course:Course):Promise<Course>=>{
-            console.log(course,"course DAta in repositery");
+            // console.log(course,"course DAta in repositery");
             
         try {
             const addedCourse = await courseModel.create(course);
-            console.log('Added course:', addedCourse);
+            // console.log('Added course:', addedCourse);
     
             return addedCourse;
         } catch (error) {
@@ -38,24 +38,24 @@ const courseRepositoryImp = (courseModel: MongoDBCourse): courseRepository=>{
     const addingClass = async(classData:Classes):Promise<Course>=>{
       
       const courseId = classData._id
-      console.log(courseId,"courseid");
+      // console.log(courseId,"courseid");
       const  {title,description,video} = classData
 
       const newClass = {
         title,description,video
       }
-      console.log(newClass,"new class");
+      // console.log(newClass,"new class");
       
       const findCourse= await courseModel.findById({_id:courseId})
       if(!findCourse){
        throw new AppError('error ',404)
       }
-      console.log(findCourse,"findCourse by id ");
+      // console.log(findCourse,"findCourse by id ");
       
       findCourse.classes.push(newClass)
                            
     const updateCourse = await findCourse.save()
-    console.log(updateCourse,"upadate adddddddddd class to course");
+    // console.log(updateCourse,"upadate adddddddddd class to course");
     
       
 
@@ -90,7 +90,7 @@ const courseRepositoryImp = (courseModel: MongoDBCourse): courseRepository=>{
           .populate("designer") 
           .exec(); 
       
-          console.log(course,"course data in");
+          // console.log(course,"course data in");
           
         return course;
       };
@@ -98,7 +98,7 @@ const courseRepositoryImp = (courseModel: MongoDBCourse): courseRepository=>{
         const course = await courseModel.findById(courseId)
           
       
-          console.log(course,"course data in");
+          // console.log(course,"course data in");
           
         return course;
       };
@@ -121,7 +121,7 @@ const courseRepositoryImp = (courseModel: MongoDBCourse): courseRepository=>{
   }
     const getAllCourses= async():Promise<object[]|null>=>{
         const allCourses = await courseModel.find({})
-        console.log(allCourses,"courses list");
+        // console.log(allCourses,"courses list");
         
         return allCourses
     }

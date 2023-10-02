@@ -4,6 +4,8 @@ import { MongoDBPayment } from "../../database/model/paymentModel"
 export type paymentRepository = {
     addPayment :(paymentData:Payment)=>Promise<Payment>
     findUsers:(courseId:any)=>Promise<any>
+    findPurchasedCourse:(userId:any)=>Promise<Payment[]|undefined>
+    getPaymentedUser:(userId:any,courseId:any)=>Promise<any>
 }
 
 const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
@@ -44,7 +46,26 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
             
         }
     }
-    return {addPayment,findUsers}
+
+    const findPurchasedCourse = async(userId:any):Promise<Payment[]|undefined>=>{
+        try {
+            const paymentedCourses = await paymentModel.find({user:userId}).populate('selectedCourse')
+
+            return paymentedCourses
+        } catch (error) {
+            
+        }
+    }
+
+    const getPaymentedUser = async(userId:any,courseId:any):Promise<any>=>{
+        try {
+            const paymentedUser = await  paymentModel.findOne({ user: userId, selectedCourse: courseId })
+            return paymentedUser
+        } catch (error) {
+            
+        }
+    }
+    return {addPayment,findUsers,findPurchasedCourse,getPaymentedUser}
 }
 
 

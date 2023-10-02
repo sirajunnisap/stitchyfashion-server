@@ -6,7 +6,7 @@ import { CustomRequest } from "../../middleware/authMiddleware";
 import { paymentModel } from "../../../infra/database/model/paymentModel";
 import { userModel } from "../../../infra/database/model/userModel";
 import paymentRepositoryImp from "../../../infra/repositories/payment/paymentRepository";
-import { addPaymentUse, getUsersfromPymt } from "../../../app/useCase/payment/addPaymentUse";
+import { addPaymentUse, getUsersfromPymt, getpaymentUserUser, purchasedCoursesUse } from "../../../app/useCase/payment/addPaymentUse";
 import { Payment } from "../../../domain/entities/paymentModel";
 import { getUserById } from "../../../app/useCase/user/userProfile";
 import userRepositoryImp from "../../../infra/repositories/user/userRepository";
@@ -68,7 +68,8 @@ export const paymentUser = async(req:CustomRequest,res:Response)=>{
         
         // console.log(findUser,"user find for payment ed user user id ");
         
-        const paymented = await paymentModel.findOne({ user: userId, selectedCourse: courseId })
+        const paymented = await getpaymentUserUser(paymentRepository)(userId,courseId)
+        // paymentModel.findOne({ user: userId, selectedCourse: courseId })
         console.log(paymented,"payment duser find ");
         
         res.status(200).json(paymented)
@@ -97,3 +98,19 @@ export const getPaymentedUsers = async(req:Request,res:Response)=>{
     }
 }
 
+export const getPurchasedCourses = async(req:CustomRequest,res:Response)=>{
+    try {
+        const userId = req.user?.user._id
+        console.log(userId,"useriddddddddddddddd");
+        
+        const courses = await purchasedCoursesUse(paymentRepository)(userId)
+        //  paymentModel.find({user:userId}).populate('selectedCourse')
+        console.log(courses,"course find by id for showing purchased course in profile");
+        
+        res.status(200).json(courses)
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}

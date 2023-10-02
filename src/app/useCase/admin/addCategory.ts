@@ -7,13 +7,25 @@ import { AppError } from "../../../utils/errorHandle";
 export const categoryAdding = (categoryRepository:categoryRepository)=>{
     return async(category:Category):Promise<Category>=>{
 
+
+        
+        const categoryname = category.name
+        const toupperName = categoryname.toUpperCase()
+        category.name = toupperName
+
+        
         const isCategoryExist = await categoryRepository.findCategoryByName(category.name)
+        console.log(isCategoryExist,"category exist");
+        
         if(isCategoryExist){
             throw new AppError('course is already Exist',409)
-        }else{
+        }
+
+            console.log(category,"categoryitems");
+            
             const addedCategory = await categoryRepository.addCategory(category)
         return addedCategory
-        }
+        
         
     }
     

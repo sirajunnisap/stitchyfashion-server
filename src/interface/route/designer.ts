@@ -8,6 +8,7 @@ import { uploadImage } from "../controller/designer/uploadTutorials";
 import { getAllCategories } from "../controller/course/getCategories";
 import { verifyEmail } from "../controller/admin/addDesigner";
 import { getPaymentedUsers } from "../controller/course/payment";
+import { searchUsers } from "../controller/admin/getusers";
 
 
 
@@ -33,4 +34,5 @@ designerRoute.post("/uploadImage", (req, res) => {
 
 designerRoute.get('/getPaymentedUsers/:id',getPaymentedUsers)
 designerRoute.get('/paymentedUsersList/:id',getPaymentedUsers)
+designerRoute.get('/users',searchUsers)
 export default designerRoute

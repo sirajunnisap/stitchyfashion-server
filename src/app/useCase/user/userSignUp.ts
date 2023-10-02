@@ -8,7 +8,7 @@ export const signupUser = (userRepository:userRepository) => {
     return async (user:User):Promise<User> =>{
        
         const hashpassword = await passwordHashing(user?.password)
-        console.log(user.password,"password");
+        // console.log(user.password,"password");
         let newUser = {...user,password:hashpassword}
         
         const isUserExist = await userRepository.findOneUserByEmail(user.email)

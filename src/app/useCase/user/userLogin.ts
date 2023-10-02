@@ -1,4 +1,4 @@
-import { userRepository } from "../../../infra/repositories/user/userRepository";
+import userRepositoryImp, { userRepository } from "../../../infra/repositories/user/userRepository";
 import { userLogintype } from "../../../interface/controller/user/userLoginController";
 import { User } from "../../../domain/entities/userModel";
 import { AppError } from "../../../utils/errorHandle";
@@ -22,7 +22,7 @@ export const loginUser = (userRepository:userRepository) =>{
             throw new AppError('User is not exist',404)
         }
         
-        console.log(isUserExist,"useer");
+        // console.log(isUserExist,"useer");
         const isblockedUser = await userRepository.findUserIsBlock(email)
         if(isblockedUser)throw new AppError('user is blocked by admin',404)
         
@@ -31,11 +31,11 @@ export const loginUser = (userRepository:userRepository) =>{
         
         const ispasswordCorrect = await passwordCompare(password,isUserExist.password)
         if(!ispasswordCorrect){
-            console.log("password incorrect");
+            // console.log("password incorrect");
             
             throw new AppError('incorrect password',401)
         }else{
-            console.log("password matched");
+            // console.log("password matched");
             
         }
         const userToken = await createToken(isUserExist)
@@ -52,7 +52,7 @@ export const loginUser = (userRepository:userRepository) =>{
 
 export const loginGoogle = (userRepositoty:userRepository)=>{
     return async (user:any):Promise<userReturnType>=>{
-        console.log(user,"user data ");
+        // console.log(user,"user data ");
         
         const {email,name,phone} = user 
 
@@ -68,7 +68,7 @@ export const loginGoogle = (userRepositoty:userRepository)=>{
                 userData:newUser,
                 // message:'login success'
             }
-            console.log(verifiedUser,"verified user with token ,data");
+            // console.log(verifiedUser,"verified user with token ,data");
             
             return verifiedUser
         }
@@ -80,3 +80,4 @@ export const loginGoogle = (userRepositoty:userRepository)=>{
     return verifiedUser
 }
 }
+

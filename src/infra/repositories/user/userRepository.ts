@@ -14,16 +14,17 @@ export type userRepository = {
     updateIsBlock:(id:string,action:string)=>Promise<Boolean|undefined>
     findUserIsBlock:(email:string)=>Promise<boolean>
     findUserIsMailVerified:(email:string)=>Promise<boolean>
+    searchUser:(searchQuery:string,sortCriteria:{})=>Promise<object[]>
 };
 
 
 const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
 
     const createUser = async(user:User):Promise<User>=>{
-        console.log(user,"creating user wiht user detail");
+        // console.log(user,"creating user wiht user detail");
         
         let newUser = await UserModel.create(user)
-        console.log(newUser,"newuser");
+        // console.log(newUser,"newuser");
         
         return newUser
     }
@@ -44,14 +45,14 @@ const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
 
     const getUserById = async(userId:string):Promise<any>=>{
         try {
-            console.log(userId,"userID");
+            // console.log(userId,"userID");
         
             const user = await UserModel.findById(userId)
             if(!user){
                 console.log("user not found");
                 return null
             }
-            console.log(user,"user");
+            // console.log(user,"user");
             
             return user
         } catch (error) {
@@ -81,7 +82,7 @@ const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
     
     const findUserIsBlock = async(email:string):Promise<boolean>=>{
         const user = await userModel.findOne({email,isBlocked:true})
-        console.log(user,"blocked user")
+        // console.log(user,"blocked user")
         if(user){
             return true
         }else{
@@ -96,6 +97,11 @@ const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
             return false
         }
     }
-    return {createUser,findOneUserByEmail,getAllUsers,getUserById,updateUserById,updateIsBlock,findUserIsBlock,findUserIsMailVerified }
+
+    const searchUser = async(searchQuery:string,sortCriteria:{}):Promise<object[]>=>{
+        const searchresult = await userModel.find({name:{$regex:searchQuery,$options:'i'}},{password:0}).sort(sortCriteria);
+        return searchresult
+    }
+    return {createUser,findOneUserByEmail,getAllUsers,getUserById,updateUserById,updateIsBlock,findUserIsBlock,findUserIsMailVerified,searchUser }
 }
 export default userRepositoryImp

@@ -113,20 +113,20 @@ export const AllCourses = async(req:CustomRequest,res:Response)=>{
 
 export const courseUpdate = async (req: Request, res: Response) => {
     try {
-      const CourseData = req.body;
-      const courseId = req.params.id; 
+      const CourseData = req.body as object|any;
+      const courseId:string|undefined = req.params.id as string
 //   console.log(CourseData,courseId,"courseupdate datas");
   
       const courseData: object = {
         title: CourseData.title as string,
         description: CourseData.description as string,
-        designer: CourseData.designer as string,
+        // designer: CourseData.designer as string,
         duration: CourseData.duration as number,
         level: CourseData.level as string,
         courseFee: CourseData.courseFee as number,
         image: CourseData.image as string,
-        unlist: CourseData.unlist as boolean,
-        classes: CourseData.classes as Array<{}>,
+        // unlist: CourseData.unlist as boolean,
+        // classes: CourseData.classes as Array<{}>,
       };
   
       const updatedCourse = await updateCourse(courseRepository)(courseId, courseData);

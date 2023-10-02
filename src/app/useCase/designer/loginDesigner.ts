@@ -14,10 +14,10 @@ export const loginDesigner = (designerRepository:designerRepository)=>{
     return async(designer:designerLoginType):Promise<designerReturnType>=>{
         
         const {email,password} = designer
-        console.log(email,password,"designeremailpassword");
+        // console.log(email,password,"designeremailpassword");
         
         const isDesignerExist:designerLoginType|null = await designerRepository.findDesignerByEmail(email)
-        console.log(isDesignerExist,"designer exist");
+        // console.log(isDesignerExist,"designer exist");
         
         if(!isDesignerExist){
             throw new AppError("adminis not exist",400)

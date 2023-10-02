@@ -11,23 +11,24 @@ export type designerRepository = {
      updateDesignerById:(id:string,designerDetails:object)=>Promise<object|null>;
      updateIsBlock:(id:string,action:string)=>Promise<Boolean|undefined>
      findDesignerIsBlock:(email:string)=>Promise<boolean>
+     searchDesigner:(searchQuery:string,sortCriteria:{})=>Promise<object[]>
 }
 
 
 const designerRepositoryImp = (DesignerModel:MongoDBDesigner):designerRepository=>{
 
     const createDesigner = async(designer:Designer):Promise<Designer>=>{
-        console.log(designer,"designer data in reposigoriy");
+        // console.log(designer,"designer data in reposigoriy");
         
         let newDesigner = await designerModel.create(designer)
         return newDesigner
     }
     const findDesignerByEmail =async (email:string):Promise<designerLoginType|null> => {
         const designerDetails = await DesignerModel.find()
-        console.log(designerDetails,"designerslist");
+        // console.log(designerDetails,"designerslist");
         
         const designer:designerLoginType|null = await DesignerModel.findOne({email})
-        console.log(designer,"designerDetails");
+        // console.log(designer,"designerDetails");
         
         return designer
     }
@@ -40,10 +41,10 @@ const designerRepositoryImp = (DesignerModel:MongoDBDesigner):designerRepository
 
         try {
             const designer  = await designerModel.findById(designerId,{password:0})
-            console.log(designer,"designer in repository");
+            // console.log(designer,"designer in repository");
             
             if(!designer){
-                console.log("designer not found");
+                // console.log("designer not found");
                 return null
             }
             return designer
@@ -66,14 +67,20 @@ const designerRepositoryImp = (DesignerModel:MongoDBDesigner):designerRepository
     }
     const findDesignerIsBlock = async(email:string):Promise<boolean>=>{
         const designer = await designerModel.findOne({email,isBlocked:true})
-        console.log(designer,"blocked designer")
+        // console.log(designer,"blocked designer")
         if(designer){
             return true
         }else{
             return false
         }
     }
-    return {createDesigner,findDesignerByEmail,getAllDesigners,getDesignerById,updateDesignerById,updateIsBlock,findDesignerIsBlock}
+
+    const searchDesigner = async(searchQuery:string,sortCriteria:{}):Promise<object[]>=>{
+        const searchresult = await designerModel.find({name:{$regex:searchQuery,$options:'i'}},{password:0}).sort(sortCriteria);
+        return searchresult
+    }
+
+    return {createDesigner,findDesignerByEmail,getAllDesigners,getDesignerById,updateDesignerById,updateIsBlock,findDesignerIsBlock,searchDesigner}
 }
 
 export default designerRepositoryImp

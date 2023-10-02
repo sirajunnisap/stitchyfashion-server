@@ -22,3 +22,13 @@ export const isBlockDesigner = (designerRepository:designerRepository)=>{
       return blockedDesigner
     }
   }
+
+
+
+  export const searchUsecase = (designerRepository:designerRepository)=>
+  async(searchQuery:string,sortCriteria:{}):Promise<object[]|null>=>{
+    const designer= await designerRepository.searchDesigner(searchQuery,sortCriteria)
+    return designer
+  }
+
+

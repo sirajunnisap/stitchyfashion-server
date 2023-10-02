@@ -5,7 +5,7 @@ import { profileUpdate, userProfile } from "../controller/user/userDetails";
 import {userAuthenticateToken} from "../middleware/authMiddleware";
 import { CategoryDetails, CourseDetails, getAllCategories, getAllCourses } from "../controller/course/CourseDetails";
 import { getDesigner } from "../controller/designer/designerData";
-import { checkout, paymentUser, paymentforCourse } from "../controller/course/payment";
+import { checkout, getPurchasedCourses, paymentUser, paymentforCourse } from "../controller/course/payment";
 
 const userRoute = express.Router();
 
@@ -26,4 +26,5 @@ userRoute.get('/getDesignerById/:id',getDesigner)
 userRoute.get('/checkout/:id',checkout)
 userRoute.post('/paymentforCourse',userAuthenticateToken,paymentforCourse)
 userRoute.get('/paymentedUser/:id',userAuthenticateToken,paymentUser)
+userRoute.get('/getPurchasedCourses',userAuthenticateToken,getPurchasedCourses)
 export default userRoute;

@@ -1,13 +1,13 @@
 import express  from "express";
 import { adminLogin } from "../controller/admin/adminLoginController";
-import { blockUser, getAllUsers } from "../controller/admin/getusers";
-import { blockDesigner, getAllDesigners } from "../controller/admin/desigers";
+import { blockUser, getAllUsers, searchUsers } from "../controller/admin/getusers";
+import { blockDesigner, getAllDesigners, searchDesigners } from "../controller/admin/desigers";
 import { adminProfile, profileUpdate } from "../controller/admin/adminData";
 import { getAllCourses } from "../controller/course/getCourses";
 import { adminAuthenticateToken } from "../middleware/authMiddleware";
 import { designerRegister } from "../controller/admin/addDesigner";
 import { addCategory, editCategory, getAllCategories } from "../controller/course/addCategory";
-import { CourseDetails } from "../controller/course/CourseDetails";
+import { CategoryDetails, CourseDetails } from "../controller/course/CourseDetails";
 
 const adminRoute = express.Router();
 
@@ -25,7 +25,7 @@ adminRoute.post('/addDesigner',designerRegister);
 adminRoute.post('/addCategory',addCategory);
 adminRoute.put('/editCategory/:id',editCategory);
 adminRoute.get('/getCategories',getAllCategories);
-// adminRoute.get('/getOneCategory',getOneCategory);
-
-
+adminRoute.get('/users',searchUsers);
+adminRoute.get('/designers',searchDesigners)
+adminRoute.get('/categoryDetails/:id',CategoryDetails)
 export default adminRoute ;

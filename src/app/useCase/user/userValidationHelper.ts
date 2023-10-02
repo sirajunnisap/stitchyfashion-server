@@ -6,7 +6,7 @@ import path from "path";
 dotenv.config({ path: path.resolve(__dirname, '../.env')});
 
 export const passwordHashing: Function = async (password:string):Promise<string> => {
-    console.log(password,"pawwdsf");
+    // console.log(password,"pawwdsf");
     
     const hashedPassword = await bcrypt.hash(password,10);
     return hashedPassword

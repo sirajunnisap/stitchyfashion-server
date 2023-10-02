@@ -39,7 +39,7 @@ export const userAuthenticateToken  = (req:CustomRequest,res:Response,next:NextF
 
 export const adminAuthenticateToken = (req:CustomRequest,res:Response,next:NextFunction)=>{
     try {
-        const authHeader = req.headers.authorization
+        const authHeader = req.headers.admin as string
         const secretKey =process.env.JWT_SECRET_KEY_ADMIN;
         // console.log(secretKey);
         
@@ -56,7 +56,7 @@ export const adminAuthenticateToken = (req:CustomRequest,res:Response,next:NextF
         // console.log(token,"token from authheader spliting admin");
         
         
-        jwt.verify(token,secretKey,(err:any,admin:any)=>{
+        jwt.verify(token,secretKey as string,(err:any,admin:any)=>{
             if(err){
                 return res.status(403).json({ error: 'Invalid token' });     
             }

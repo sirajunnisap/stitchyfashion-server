@@ -68,6 +68,7 @@ export const forgetPassword = async(req:Request,res:Response)=>{
        const {email} = req.body 
     //    console.log(email,"email for changepassword");
 
+    
         const user = await userModel.findOne({email})
         // console.log(user,"user for changepassword");
         
@@ -85,7 +86,7 @@ export const forgetPassword = async(req:Request,res:Response)=>{
        console.log(otp,"otp");
        sendVerifyEmail(user.email,"Stitchy mail password reset OTP :",otp)
        const addOtpToDb = await userModel.findOneAndUpdate({email},{$set:{otp:otp}},{new:true}) 
-       console.log(addOtpToDb,"addotp to database ");
+    //    console.log(addOtpToDb,"addotp to database ");
        
        
       return res.status(200).json({message:"an otp has been sent to your account please verify"})
@@ -98,13 +99,13 @@ export const forgetPassword = async(req:Request,res:Response)=>{
 export const verifyOtp = async (req: Request, res: Response) => {
     try {
       const { otp } = req.body;
-      console.log(otp, "otp verification");
+    //   console.log(otp, "otp verification");
   
       const userOtp = await userModel.findOne({ otp });
-      console.log(userOtp, "user find using otp");
+    //   console.log(userOtp, "user find using otp");
   
       if (userOtp) {
-        console.log("User verified");
+        // console.log("User verified");
         const deleteOtp = await userModel.findOneAndUpdate(
           { otp },
           { $set: { otp: '' } },
@@ -143,7 +144,7 @@ export const changePassword = async(req:Request,res:Response)=>{
         }
     
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log(hashedPassword, "hashed password for update");
+        // console.log(hashedPassword, "hashed password for update");
     
         const updatedUser = await userModel.findOneAndUpdate(
           { _id: userId },
