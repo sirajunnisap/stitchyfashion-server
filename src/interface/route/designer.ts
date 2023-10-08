@@ -10,6 +10,9 @@ import { verifyEmail } from "../controller/admin/addDesigner";
 import { getPaymentedUsers } from "../controller/course/payment";
 import { searchUsers } from "../controller/admin/getusers";
 
+import { getMessageBychatId, sendMessageDsgr } from "../controller/chat/sendMessage";
+import { accessChatController } from "../controller/chat/designerChat";
+
 
 
 const designerRoute = express.Router()
@@ -35,4 +38,10 @@ designerRoute.post("/uploadImage", (req, res) => {
 designerRoute.get('/getPaymentedUsers/:id',getPaymentedUsers)
 designerRoute.get('/paymentedUsersList/:id',getPaymentedUsers)
 designerRoute.get('/users',searchUsers)
+
+designerRoute.post('/access-chat',designerAuthenticateToken,accessChatController)
+designerRoute.get('/getMsgByChatId/:id',designerAuthenticateToken,getMessageBychatId)
+designerRoute.post('/sendMessageDsgr',designerAuthenticateToken,sendMessageDsgr)
+
+
 export default designerRoute

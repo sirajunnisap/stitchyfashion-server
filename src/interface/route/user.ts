@@ -6,6 +6,8 @@ import {userAuthenticateToken} from "../middleware/authMiddleware";
 import { CategoryDetails, CourseDetails, getAllCategories, getAllCourses } from "../controller/course/CourseDetails";
 import { getDesigner } from "../controller/designer/designerData";
 import { checkout, getPurchasedCourses, paymentUser, paymentforCourse } from "../controller/course/payment";
+import { getMessageBychatId, sendMessage } from "../controller/chat/sendMessage";
+import { accessChatController, fetchUserChatController } from "../controller/chat/userChat";
 
 const userRoute = express.Router();
 
@@ -27,4 +29,13 @@ userRoute.get('/checkout/:id',checkout)
 userRoute.post('/paymentforCourse',userAuthenticateToken,paymentforCourse)
 userRoute.get('/paymentedUser/:id',userAuthenticateToken,paymentUser)
 userRoute.get('/getPurchasedCourses',userAuthenticateToken,getPurchasedCourses)
+
+userRoute.post('/access-chat',userAuthenticateToken,accessChatController)
+userRoute.get('/user-chat/:id',fetchUserChatController)
+
+
+userRoute.post('/sendMessage',userAuthenticateToken,sendMessage)
+userRoute.get('/getMsgByChatId/:id',userAuthenticateToken,getMessageBychatId)
+
+
 export default userRoute;

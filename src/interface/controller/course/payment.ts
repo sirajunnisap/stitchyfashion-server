@@ -64,13 +64,13 @@ export const paymentUser = async(req:CustomRequest,res:Response)=>{
         
         const userId = req.user?.user._id
         const courseId = req.params.id
-        console.log(courseId);
+        // console.log(courseId);
         
         // console.log(findUser,"user find for payment ed user user id ");
         
         const paymented = await getpaymentUserUser(paymentRepository)(userId,courseId)
         // paymentModel.findOne({ user: userId, selectedCourse: courseId })
-        console.log(paymented,"payment duser find ");
+        // console.log(paymented,"payment duser find ");
         
         res.status(200).json(paymented)
     } catch (error) {
@@ -81,14 +81,14 @@ export const paymentUser = async(req:CustomRequest,res:Response)=>{
 export const getPaymentedUsers = async(req:Request,res:Response)=>{
     try {
         const courseId = req.params.id
-        console.log(courseId,"course idddddddddddddd");
+        // console.log(courseId,"course idddddddddddddd");
 
 
         
         // const userinpayment = await paymentModel.findOne({ course: courseId }).populate('user').exec();
 
        const users = await getUsersfromPymt(paymentRepository)(courseId)
-       console.log(users,"user for show ing designer ");
+    //    console.log(users,"user for show ing designer ");
        
 
        res.status(200).json(users)
@@ -101,11 +101,11 @@ export const getPaymentedUsers = async(req:Request,res:Response)=>{
 export const getPurchasedCourses = async(req:CustomRequest,res:Response)=>{
     try {
         const userId = req.user?.user._id
-        console.log(userId,"useriddddddddddddddd");
+        // console.log(userId,"useriddddddddddddddd");
         
         const courses = await purchasedCoursesUse(paymentRepository)(userId)
         //  paymentModel.find({user:userId}).populate('selectedCourse')
-        console.log(courses,"course find by id for showing purchased course in profile");
+        // console.log(courses,"course find by id for showing purchased course in profile");
         
         res.status(200).json(courses)
 

@@ -22,7 +22,7 @@ export const getAllCourses = async(req:Request, res:Response)=>{
     try {
         
         const allCourses=await getCourses(courseRepository)()
-        console.log(allCourses);
+        // console.log(allCourses);
         
         if(!allCourses){
             throw new AppError("something went wrong",400);
@@ -42,10 +42,10 @@ export const CourseDetails = async(req:Request,res:Response)=>{
 
         const courseId:string|undefined = req.params.id as string
 
-        console.log(courseId);
+        // console.log(courseId);
         
         const courseData = await findOneById(courseRepository)(courseId)
-        console.log(courseData);
+        // console.log(courseData);
         
         res.status(200).json(courseData)
 
@@ -76,17 +76,17 @@ export const CategoryDetails = async(req:Request,res:Response)=>{
 
         const categoryId:string|undefined = req.params.id as string
 
-        console.log(categoryId,"categorid");
+        // console.log(categoryId,"categorid");
         
         const categoryData = await getCoursesByCategoryId(courseRepository)(categoryId)
         if(!categoryData) throw new AppError("something went wrong",400);
 
-        console.log(categoryData);
+        // console.log(categoryData);
         
         res.status(200).json(categoryData)
         return
     } catch (error:any) {                                                                                                                                               
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ error: 'Internal server error.' });
     }
 }

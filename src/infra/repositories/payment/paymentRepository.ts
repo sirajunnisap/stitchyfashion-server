@@ -10,7 +10,7 @@ export type paymentRepository = {
 
 const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
     const addPayment = async(paymentData:Payment):Promise<Payment>=>{
-        console.log(paymentData,"payment data for addddd pdb");
+        // console.log(paymentData,"payment data for addddd pdb");
         
         try {
 
@@ -25,22 +25,22 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
             })
            const enrldCrse=await  course.save()
             // const addedPayment = await paymentModel.create(paymentData)
-            console.log(enrldCrse,"cpirse payment ds fka;jf");
+            // console.log(enrldCrse,"cpirse payment ds fka;jf");
             
             return enrldCrse;
             
         } catch (error) {
-            console.error('Error adding course:', error);
+            // console.error('Error adding course:', error);
             throw error
         }
     }
 
     const findUsers = async(courseId:any):Promise<any>=>{
-        console.log(courseId,"course di for find usersssssssssss")
+        // console.log(courseId,"course di for find usersssssssssss")
 
         try {
             const paymentWithUser = await paymentModel.find({selectedCourse:courseId}).populate('user').populate('selectedCourse')
-            console.log(paymentWithUser,"populated user form payment model lllllllllll");
+            // console.log(paymentWithUser,"populated user form payment model lllllllllll");
            return paymentWithUser;
         } catch (error) {
             
