@@ -22,13 +22,13 @@ const designerRepository = (0, designerRepository_1.default)(db);
 const designerLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const designer = req.body;
-        console.log(designer, "designer");
+        // console.log(designer,"designer");
         const { email, password } = designer;
         if (!email || !password || /^\s*$/.test(email) || /^\s*$/.test(password)) {
             throw new errorHandle_1.AppError('All fields are required', 400);
         }
         const designerToken = yield (0, loginDesigner_1.loginDesigner)(designerRepository)(designer);
-        console.log(designerToken, "designerToken");
+        // console.log(designerToken,"designerToken");
         res.status(200).json(designerToken);
     }
     catch (error) {

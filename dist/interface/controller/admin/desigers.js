@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blockDesigner = exports.getAllDesigners = void 0;
+exports.searchDesigners = exports.blockDesigner = exports.getAllDesigners = void 0;
 const designerModel_1 = require("../../../infra/database/model/designerModel");
 const designerRepository_1 = __importDefault(require("../../../infra/repositories/designer/designerRepository"));
 const errorHandle_1 = require("../../../utils/errorHandle");
@@ -56,3 +56,23 @@ const blockDesigner = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.blockDesigner = blockDesigner;
+const searchDesigners = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const searchQuery = req.query.q;
+        const sort = req.query.sort;
+        let sortCriteria = {};
+        if (sort === 'name-1')
+            sortCriteria = { name: 1 };
+        else if (sort === 'name1')
+            sortCriteria = { name: -1 };
+        else
+            sortCriteria = {};
+        const result = yield (0, getDesigners_1.searchUsecase)(designerRepository)(searchQuery, sortCriteria);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(error.statusCode || 500).json({ message: error.message || 'Somthing went wrong' });
+    }
+});
+exports.searchDesigners = searchDesigners;

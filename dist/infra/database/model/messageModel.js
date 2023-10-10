@@ -23,19 +23,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.designerModel = void 0;
+exports.messageModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const designerSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: Number, required: true },
-    password: { type: String },
-    image: { type: String },
-    isBlocked: { type: Boolean, default: false },
-    isMailVerified: { type: Boolean, default: false },
-    field: { type: String },
-    aboutMe: { type: String }
-}, {
-    timestamps: { createdAt: true }
-});
-exports.designerModel = mongoose_1.default.connection.model('designer', designerSchema);
+const messageSchema = new mongoose_1.Schema({
+    user: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    designer: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'designer'
+    },
+    content: {
+        type: String,
+        trim: true
+    },
+    chat: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'chat'
+    },
+}, { timestamps: { createdAt: true } });
+exports.messageModel = mongoose_1.default.connection.model('message', messageSchema);

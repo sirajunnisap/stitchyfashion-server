@@ -23,9 +23,9 @@ const userProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     var _a;
     try {
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user._id;
-        console.log(userId, "userId");
+        // console.log(userId,"userId dddddd");
         const userData = yield (0, getUsers_1.getUserById)(userRepository)(userId);
-        console.log(userData, "userData");
+        // console.log(userData,"userData");
         res.status(200).json(userData);
     }
     catch (error) {
@@ -37,9 +37,9 @@ const profileUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     var _b;
     try {
         const userId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.user._id;
-        console.log(userId, "userIdforupdation");
+        // console.log(userId,"userIdforupdation");
         const data = req.body;
-        console.log(data, "userData for profile updation");
+        // console.log(data,"userData for profile updation");
         const userData = {
             name: data.name,
             email: data.email,
@@ -48,9 +48,9 @@ const profileUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             image: data.image
         };
         const updatedProfile = yield (0, userProfile_1.updateProfile)(userRepository)(userId, userData);
-        console.log(updatedProfile, "updated profile");
+        // console.log(updatedProfile,"updated profile");
         if (updatedProfile) {
-            console.log("user data updated successfully");
+            // console.log("user data updated successfully");
             res.status(200).json(updatedProfile);
         }
     }

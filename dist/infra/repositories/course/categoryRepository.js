@@ -13,7 +13,7 @@ const categoryRepositoryImp = (categoryModel) => {
     const addCategory = (category) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const addedCategory = yield categoryModel.create(category);
-            console.log(addedCategory, "added category");
+            // console.log(addedCategory,"added category");
             return addedCategory;
         }
         catch (error) {
@@ -22,6 +22,7 @@ const categoryRepositoryImp = (categoryModel) => {
         }
     });
     const findCategoryByName = (name) => __awaiter(void 0, void 0, void 0, function* () {
+        // const title = name.toUpperCase()
         const category = yield categoryModel.findOne({ name });
         return category;
     });
@@ -33,6 +34,10 @@ const categoryRepositoryImp = (categoryModel) => {
         const category = yield categoryModel.findById(categoryId);
         return category;
     });
-    return { addCategory, findCategoryByName, getAllCategories, findCategoryById };
+    const editCategory = (id, categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
+        const updatedCategory = yield categoryModel.findByIdAndUpdate(id, categoryDetails, { new: true });
+        return updatedCategory;
+    });
+    return { addCategory, findCategoryByName, getAllCategories, findCategoryById, editCategory };
 };
 exports.default = categoryRepositoryImp;

@@ -18,6 +18,7 @@ const addDesigner = (designerRepository) => {
             throw new errorHandle_1.AppError('designer is already exist', 409);
         }
         const createdDesigner = yield designerRepository.createDesigner(designer);
+        console.log(createdDesigner, "creted designer");
         return createdDesigner;
     });
 };

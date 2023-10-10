@@ -8,7 +8,7 @@ import { uploadImage } from "../controller/designer/uploadTutorials";
 import { getAllCategories } from "../controller/course/getCategories";
 import { verifyEmail } from "../controller/admin/addDesigner";
 import { getPaymentedUsers } from "../controller/course/payment";
-import { searchUsers } from "../controller/admin/getusers";
+import { getUserData, searchUsers } from "../controller/admin/getusers";
 
 import { getMessageBychatId, sendMessageDsgr } from "../controller/chat/sendMessage";
 import { accessChatController } from "../controller/chat/designerChat";
@@ -38,7 +38,7 @@ designerRoute.post("/uploadImage", (req, res) => {
 designerRoute.get('/getPaymentedUsers/:id',getPaymentedUsers)
 designerRoute.get('/paymentedUsersList/:id',getPaymentedUsers)
 designerRoute.get('/users',searchUsers)
-
+designerRoute.get('/getUserData/:id',getUserData)
 designerRoute.post('/access-chat',designerAuthenticateToken,accessChatController)
 designerRoute.get('/getMsgByChatId/:id',designerAuthenticateToken,getMessageBychatId)
 designerRoute.post('/sendMessageDsgr',designerAuthenticateToken,sendMessageDsgr)

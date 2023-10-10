@@ -11,11 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const userModel_1 = require("../../database/model/userModel");
 const errorHandle_1 = require("../../../utils/errorHandle");
+const paymentModel_1 = require("../../database/model/paymentModel");
 const userRepositoryImp = (UserModel) => {
     const createUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(user, "creating user wiht user detail");
+        // console.log(user,"creating user wiht user detail");
         let newUser = yield UserModel.create(user);
-        console.log(newUser, "newuser");
+        // console.log(newUser,"newuser");
         return newUser;
     });
     const findOneUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,15 +29,28 @@ const userRepositoryImp = (UserModel) => {
             throw new errorHandle_1.AppError('Somthing went wrong ', 500);
         return allUsers;
     });
+    const getAllPaymentedUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+        const allUsers = yield paymentModel_1.paymentModel.find().populate('user').populate('selectedCourse')
+            .populate({
+            path: 'selectedCourse',
+            populate: [
+                { path: 'category', model: 'category' },
+                { path: 'designer', model: 'designer' }
+            ]
+        });
+        if (!allUsers)
+            throw new errorHandle_1.AppError('Somthing went wrong ', 500);
+        return allUsers;
+    });
     const getUserById = (userId) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            console.log(userId, "userID");
+            // console.log(userId,"userID");
             const user = yield UserModel.findById(userId);
             if (!user) {
                 console.log("user not found");
                 return null;
             }
-            console.log(user, "user");
+            // console.log(user,"user");
             return user;
         }
         catch (error) {
@@ -61,7 +75,7 @@ const userRepositoryImp = (UserModel) => {
     });
     const findUserIsBlock = (email) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield userModel_1.userModel.findOne({ email, isBlocked: true });
-        console.log(user, "blocked user");
+        // console.log(user,"blocked user")
         if (user) {
             return true;
         }
@@ -78,6 +92,10 @@ const userRepositoryImp = (UserModel) => {
             return false;
         }
     });
-    return { createUser, findOneUserByEmail, getAllUsers, getUserById, updateUserById, updateIsBlock, findUserIsBlock, findUserIsMailVerified };
+    const searchUser = (searchQuery, sortCriteria) => __awaiter(void 0, void 0, void 0, function* () {
+        const searchresult = yield userModel_1.userModel.find({ name: { $regex: searchQuery, $options: 'i' } }, { password: 0 }).sort(sortCriteria);
+        return searchresult;
+    });
+    return { createUser, findOneUserByEmail, getAllUsers, getUserById, updateUserById, updateIsBlock, findUserIsBlock, findUserIsMailVerified, searchUser, getAllPaymentedUsers };
 };
 exports.default = userRepositoryImp;

@@ -13,15 +13,15 @@ const errorHandle_1 = require("../../../utils/errorHandle");
 const designerModel_1 = require("../../database/model/designerModel");
 const designerRepositoryImp = (DesignerModel) => {
     const createDesigner = (designer) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(designer);
+        // console.log(designer,"designer data in reposigoriy");
         let newDesigner = yield designerModel_1.designerModel.create(designer);
         return newDesigner;
     });
     const findDesignerByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
         const designerDetails = yield DesignerModel.find();
-        console.log(designerDetails, "designerslist");
+        // console.log(designerDetails,"designerslist");
         const designer = yield DesignerModel.findOne({ email });
-        console.log(designer, "designerDetails");
+        // console.log(designer,"designerDetails");
         return designer;
     });
     const getAllDesigners = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,9 +33,9 @@ const designerRepositoryImp = (DesignerModel) => {
     const getDesignerById = (designerId) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const designer = yield designerModel_1.designerModel.findById(designerId, { password: 0 });
-            console.log(designer, "designer in repository");
+            // console.log(designer,"designer in repository");
             if (!designer) {
-                console.log("designer not found");
+                // console.log("designer not found");
                 return null;
             }
             return designer;
@@ -61,7 +61,7 @@ const designerRepositoryImp = (DesignerModel) => {
     });
     const findDesignerIsBlock = (email) => __awaiter(void 0, void 0, void 0, function* () {
         const designer = yield designerModel_1.designerModel.findOne({ email, isBlocked: true });
-        console.log(designer, "blocked designer");
+        // console.log(designer,"blocked designer")
         if (designer) {
             return true;
         }
@@ -69,6 +69,10 @@ const designerRepositoryImp = (DesignerModel) => {
             return false;
         }
     });
-    return { createDesigner, findDesignerByEmail, getAllDesigners, getDesignerById, updateDesignerById, updateIsBlock, findDesignerIsBlock };
+    const searchDesigner = (searchQuery, sortCriteria) => __awaiter(void 0, void 0, void 0, function* () {
+        const searchresult = yield designerModel_1.designerModel.find({ name: { $regex: searchQuery, $options: 'i' } }, { password: 0 }).sort(sortCriteria);
+        return searchresult;
+    });
+    return { createDesigner, findDesignerByEmail, getAllDesigners, getDesignerById, updateDesignerById, updateIsBlock, findDesignerIsBlock, searchDesigner };
 };
 exports.default = designerRepositoryImp;

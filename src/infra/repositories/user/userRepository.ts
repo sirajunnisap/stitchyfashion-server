@@ -2,6 +2,7 @@ import { MongoDBUser, userModel } from "../../database/model/userModel";
 import { User } from "../../../domain/entities/userModel";
 import { userLogintype } from "../../../interface/controller/user/userLoginController";
 import { AppError } from "../../../utils/errorHandle";
+import { paymentModel } from "../../database/model/paymentModel";
 
 
 export type userRepository = {
@@ -9,6 +10,7 @@ export type userRepository = {
     createUser:(user:User)=>Promise<User>;
     findOneUserByEmail:(email:string)=>Promise<userLogintype | null>;
     getAllUsers:()=>Promise<object[] | null >;
+    getAllPaymentedUsers:()=>Promise<object[] | null >;
     getUserById:(id:string)=>{};
     updateUserById:(id:string,userDetails:object)=>Promise<object|null>;
     updateIsBlock:(id:string,action:string)=>Promise<Boolean|undefined>
@@ -38,6 +40,21 @@ const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
 
         const allUsers:object[] | null=await UserModel.find({},{password:0})
 
+        if(!allUsers)throw new AppError('Somthing went wrong ',500)
+        
+        return allUsers
+    }
+    const getAllPaymentedUsers = async():Promise<object[]>=>{
+
+        const allUsers:object[] | null=await paymentModel.find().populate('user').populate('selectedCourse')
+        .populate({
+            path: 'selectedCourse',
+            populate: [
+              { path: 'category', model: 'category' },
+              { path: 'designer', model: 'designer' }
+            ]
+          })
+        
         if(!allUsers)throw new AppError('Somthing went wrong ',500)
         
         return allUsers
@@ -102,6 +119,6 @@ const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
         const searchresult = await userModel.find({name:{$regex:searchQuery,$options:'i'}},{password:0}).sort(sortCriteria);
         return searchresult
     }
-    return {createUser,findOneUserByEmail,getAllUsers,getUserById,updateUserById,updateIsBlock,findUserIsBlock,findUserIsMailVerified,searchUser }
+    return {createUser,findOneUserByEmail,getAllUsers,getUserById,updateUserById,updateIsBlock,findUserIsBlock,findUserIsMailVerified,searchUser,getAllPaymentedUsers }
 }
 export default userRepositoryImp

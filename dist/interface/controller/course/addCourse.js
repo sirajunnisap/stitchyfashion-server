@@ -24,15 +24,15 @@ const addCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const designerId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.designer._id;
-        console.log(designerId, "designerid");
+        // console.log(designerId,"designerid");
         const { title, description, duration, category, level, courseFee } = req.body;
-        console.log(category, "categorydetail");
+        // console.log(category,"categorydetail");
         const categoryObj = yield categoryModel_1.categoryModel.findOne({ name: category });
         const courseData = req.body;
-        console.log(courseData, "course data for add");
+        // console.log(courseData,"course data for add");
         courseData.designer = designerId;
         courseData.category = categoryObj;
-        console.log(courseData, "courseData for adding");
+        // console.log(courseData,"courseData for adding");
         const addedCourse = yield (0, addCourses_1.courseAdding)(courseRepository)(courseData);
         if (!addedCourse) {
             res.status(500).json({ message: "something went wrong" });
@@ -46,7 +46,7 @@ const addCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.addCourse = addCourse;
 const addClasses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body, "body data");
+        // console.log(req.body,"body data");
         const classData = req.body;
         const addedClass = yield (0, addCourses_1.addClassUseCase)(courseRepository)(classData);
         if (!addedClass) {
@@ -66,7 +66,7 @@ const CourseDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const courseId = req.params.id;
         const courseData = yield (0, addCourses_1.findOneById)(courseRepository)(courseId);
-        console.log(courseData, "courseDetails ");
+        // console.log(courseData,"courseDetails ");
         res.status(200).json(courseData);
     }
     catch (error) {
@@ -94,17 +94,17 @@ const courseUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const CourseData = req.body;
         const courseId = req.params.id;
-        console.log(CourseData, courseId, "courseupdate datas");
+        //   console.log(CourseData,courseId,"courseupdate datas");
         const courseData = {
             title: CourseData.title,
             description: CourseData.description,
-            designer: CourseData.designer,
+            // designer: CourseData.designer as string,
             duration: CourseData.duration,
             level: CourseData.level,
             courseFee: CourseData.courseFee,
             image: CourseData.image,
-            unlist: CourseData.unlist,
-            classes: CourseData.classes,
+            // unlist: CourseData.unlist as boolean,
+            // classes: CourseData.classes as Array<{}>,
         };
         const updatedCourse = yield (0, addCourses_1.updateCourse)(courseRepository)(courseId, courseData);
         if (updatedCourse) {

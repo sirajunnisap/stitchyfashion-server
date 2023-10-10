@@ -105,7 +105,10 @@ io.on("connection", (socket: any) => {
         socket.in(chat?.user._id).emit('message recieved', newMessageReceived);
 
 
-        // socket.on("typing",(c))
+        socket.on("typing",(currentId: string) => socket.to(currentId).emit("typing"))
+        socket.on("stoptyping",(currentId: string) => socket.to(currentId).emit("stoptyping"))
+
+        
         if (chat?._id === newMessageReceived?.designer?._id) return
         socket.in(chat?.designer._id).emit('message recieved', newMessageReceived)
 

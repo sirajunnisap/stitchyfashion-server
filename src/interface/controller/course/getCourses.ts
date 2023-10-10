@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { getCourses } from "../../../app/useCase/course/addCourses";
+import { getCourses, getCoursesByDesignerId } from "../../../app/useCase/course/addCourses";
 import { courseModel } from "../../../infra/database/model/courseModel";
 import courseRepositoryImp from "../../../infra/repositories/course/courseRepository";
 import { AppError } from "../../../utils/errorHandle";
@@ -23,3 +23,16 @@ export const getAllCourses = async(req:Request, res:Response)=>{
     }
 }
 
+
+
+export const getDesignerCourses = async(req:Request,res:Response)=>{
+    try {
+        const designerID = req.params.id as string
+        const courses = await getCoursesByDesignerId(courseRepository)(designerID)
+            
+        res.status(200).json(courses)
+        return
+    } catch (error:any) {
+        res.status(error.statusCode||500).json({message:error.message|| "something went wrong"})
+    }
+}

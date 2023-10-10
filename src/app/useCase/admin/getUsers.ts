@@ -10,6 +10,13 @@ async ():Promise<object[] | null>=>{
     return users
 }
 
+export const getPaymentedUsers =(userRepository:userRepository)=>
+async ():Promise<object[] | null>=>{
+    const users=await userRepository.getAllPaymentedUsers()
+    return users
+}
+
+
 export const getUserById = (userRepository:userRepository) => {
  return async (userId: string): Promise<object | null> => {
   // console.log(userId,"userId");

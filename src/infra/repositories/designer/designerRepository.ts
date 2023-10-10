@@ -1,6 +1,7 @@
 import { Designer } from "../../../domain/entities/designerModel";
 import { designerLoginType } from "../../../interface/controller/designer/designerLogin";
 import { AppError } from "../../../utils/errorHandle";
+import { courseModel } from "../../database/model/courseModel";
 import { MongoDBDesigner, designerModel } from "../../database/model/designerModel";
 
 export type designerRepository = {
@@ -12,6 +13,7 @@ export type designerRepository = {
      updateIsBlock:(id:string,action:string)=>Promise<Boolean|undefined>
      findDesignerIsBlock:(email:string)=>Promise<boolean>
      searchDesigner:(searchQuery:string,sortCriteria:{})=>Promise<object[]>
+
 }
 
 
@@ -80,6 +82,7 @@ const designerRepositoryImp = (DesignerModel:MongoDBDesigner):designerRepository
         return searchresult
     }
 
+    
     return {createDesigner,findDesignerByEmail,getAllDesigners,getDesignerById,updateDesignerById,updateIsBlock,findDesignerIsBlock,searchDesigner}
 }
 

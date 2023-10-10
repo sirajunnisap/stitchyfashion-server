@@ -22,9 +22,9 @@ const designerProfile = (req, res) => __awaiter(void 0, void 0, void 0, function
     var _a;
     try {
         const designerId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.designer._id;
-        console.log(designerId, "designerIdfor profile");
+        // console.log(designerId,"designerIdfor profile");
         const designerData = yield (0, designerDetails_1.getDesignerById)(designerRepository)(designerId);
-        console.log(designerData, "designerData");
+        // console.log(designerData,"designerData");
         res.status(200).json(designerData);
     }
     catch (error) {
@@ -36,9 +36,9 @@ const profileUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     var _b;
     try {
         const designerId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.designer._id;
-        console.log(designerId, "designerid for profileupdate");
+        // console.log(designerId,"designerid for profileupdate");
         const data = req.body;
-        console.log(data, "designerdata for profile updation");
+        // console.log(data,"designerdata for profile updation");
         const designerData = {
             name: data.name,
             email: data.email,
@@ -47,10 +47,10 @@ const profileUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             field: data.field,
             aboutMe: data.aboutMe
         };
-        console.log(designerData, "designerdata");
+        // console.log(designerData,"designerdata");
         const updatedProfile = yield (0, designerDetails_1.updateProfile)(designerRepository)(designerId, designerData);
         if (updatedProfile) {
-            console.log("designer data updated successfully", updatedProfile);
+            // console.log("designer data updated successfully",updatedProfile);
             res.status(200).json(updatedProfile);
         }
     }
@@ -62,13 +62,14 @@ exports.profileUpdate = profileUpdate;
 const getDesigner = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const designerId = req.params.id;
-        console.log(designerId, "designeridforgetdata");
+        // console.log(designerId,"designeridforgetdata");
         const designer = yield (0, designerDetails_1.getDesignerById)(designerRepository)(designerId);
-        console.log(designer, "designer data by designerid ");
+        // console.log(designer,"designer data by designerid ");
         res.status(200).json(designer);
         return;
     }
     catch (error) {
+        console.log(error);
     }
 });
 exports.getDesigner = getDesigner;

@@ -36,7 +36,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyEmail = exports.designerRegister = void 0;
-const errorHandle_1 = require("../../../utils/errorHandle");
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const emailValidator = __importStar(require("email-validator"));
 const designerModel_1 = require("../../../infra/database/model/designerModel");
@@ -47,23 +46,31 @@ const designerRepository = (0, designerRepository_1.default)(db);
 const designerRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const designer = req.body;
-        if (!designer.name || !designer.email || !designer.password ||
-            /^\s*$/.test(designer.name) ||
-            /^\s*$/.test(designer.email) ||
-            /^\s*$/.test(designer.password)) {
-            throw new errorHandle_1.AppError('all field are required', 400);
-        }
-        if (designer.password.length < 6) {
-            throw new errorHandle_1.AppError('password must be at least 6 digits', 400);
-        }
-        console.log(designer, 'designer details');
+        // console.log(designer,"designer data for adding");
+        // if(!designer.name || !designer.email ||
+        //     /^\s*$/.test(designer.name)|| 
+        //     /^\s*$/.test(designer.email)){
+        //         throw new AppError('all field are required',400)
+        //     }
+        let password = Math.random().toString().substr(-10);
+        console.log(password);
         const createdDesigner = yield (0, addDesigner_1.addDesigner)(designerRepository)(designer);
+        // console.log(createdDesigner,"designer creted");
         if (!createdDesigner) {
             res.status(500).json({ message: 'something went wrong' });
         }
+        const designerEmail = createdDesigner.email;
+        // console.log(designerEmail,"designer email for creating password");
+        const addPassword = yield designerModel_1.designerModel.findOneAndUpdate({ email: designerEmail }, { $set: { password: password } }, { new: true });
+        // console.log(addPassword,"password add to the designer data");
         if (emailValidator.validate(designer.email)) {
-            console.log(`${designer.email} is a valid email address.`);
-            sendVerifyEmail(req.body.name, req.body.email, createdDesigner._id, createdDesigner.password);
+            // console.log(`${designer.email} is a valid email address.`);
+            if (addPassword && addPassword.password) {
+                sendVerifyEmail(req.body.name, req.body.email, createdDesigner._id, addPassword.password);
+            }
+            else {
+                console.log('Password not found in addPassword');
+            }
         }
         else {
             console.log(`${designer.email} is not a valid email address.`);

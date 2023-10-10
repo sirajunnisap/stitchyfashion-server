@@ -11,6 +11,10 @@ const authMiddleware_1 = require("../middleware/authMiddleware");
 const uploadTutorials_1 = require("../controller/designer/uploadTutorials");
 const getCategories_1 = require("../controller/course/getCategories");
 const addDesigner_1 = require("../controller/admin/addDesigner");
+const payment_1 = require("../controller/course/payment");
+const getusers_1 = require("../controller/admin/getusers");
+const sendMessage_1 = require("../controller/chat/sendMessage");
+const designerChat_1 = require("../controller/chat/designerChat");
 const designerRoute = express_1.default.Router();
 designerRoute.post('/login', designerLogin_1.designerLogin);
 designerRoute.patch('/verifyEmail/:id', addDesigner_1.verifyEmail);
@@ -28,4 +32,11 @@ designerRoute.post("/uploadImage", (req, res) => {
         .then((url) => res.send(url))
         .catch((err) => res.status(500).send(err));
 });
+designerRoute.get('/getPaymentedUsers/:id', payment_1.getPaymentedUsers);
+designerRoute.get('/paymentedUsersList/:id', payment_1.getPaymentedUsers);
+designerRoute.get('/users', getusers_1.searchUsers);
+designerRoute.get('/getUserData/:id', getusers_1.getUserData);
+designerRoute.post('/access-chat', authMiddleware_1.designerAuthenticateToken, designerChat_1.accessChatController);
+designerRoute.get('/getMsgByChatId/:id', authMiddleware_1.designerAuthenticateToken, sendMessage_1.getMessageBychatId);
+designerRoute.post('/sendMessageDsgr', authMiddleware_1.designerAuthenticateToken, sendMessage_1.sendMessageDsgr);
 exports.default = designerRoute;

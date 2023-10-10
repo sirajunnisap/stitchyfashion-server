@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blockUser = exports.getAllUsers = void 0;
+exports.getUserData = exports.searchUsers = exports.blockUser = exports.getAllPaymentedUsers = exports.getAllUsers = void 0;
 const getUsers_1 = require("../../../app/useCase/admin/getUsers");
 const errorHandle_1 = require("../../../utils/errorHandle");
 const userModel_1 = require("../../../infra/database/model/userModel");
@@ -33,6 +33,20 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getAllUsers = getAllUsers;
+const getAllPaymentedUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allUsers = yield (0, getUsers_1.getPaymentedUsers)(userRepository)();
+        if (!allUsers) {
+            throw new errorHandle_1.AppError("something went wrong", 400);
+        }
+        res.status(200).json(allUsers);
+        return;
+    }
+    catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message || "something went wrong" });
+    }
+});
+exports.getAllPaymentedUsers = getAllPaymentedUsers;
 const blockUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId, action } = req.body;
@@ -56,3 +70,37 @@ const blockUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.blockUser = blockUser;
+const searchUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const searchQuery = req.query.q;
+        console.log(searchQuery, "searching quey form frontend");
+        const sort = req.query.sort;
+        console.log(sort, "sorting data from frondent");
+        let sortCriteria = {};
+        if (sort === 'name-1')
+            sortCriteria = { name: 1 };
+        else if (sort === 'name1')
+            sortCriteria = { name: -1 };
+        else
+            sortCriteria = {};
+        console.log(sortCriteria, "sortcriteria");
+        const result = yield (0, getUsers_1.searchUsecase)(userRepository)(searchQuery, sortCriteria);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(error.statusCode || 500).json({ message: error.message || 'Somthing went wrong' });
+    }
+});
+exports.searchUsers = searchUsers;
+const getUserData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.id;
+        const userData = yield (0, getUsers_1.getUserById)(userId);
+        res.status(200).json(userData);
+        return;
+    }
+    catch (error) {
+    }
+});
+exports.getUserData = getUserData;

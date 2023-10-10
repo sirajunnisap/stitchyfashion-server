@@ -56,7 +56,7 @@ const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (user.password.length < 6) {
             throw new errorHandle_1.AppError('password must be at least 6 digits', 400);
         }
-        console.log(user, 'user details');
+        // console.log(user,'user details');
         const createUser = yield (0, userSignUp_1.signupUser)(userRepository)(user);
         if (!createUser) {
             res.status(500).json({ message: 'something went wrong' });

@@ -12,10 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const errorHandle_1 = require("../../../utils/errorHandle");
 const courseRepositoryImp = (courseModel) => {
     const addCourse = (course) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(course, "course DAta in repositery");
+        // console.log(course,"course DAta in repositery");
         try {
             const addedCourse = yield courseModel.create(course);
-            console.log('Added course:', addedCourse);
+            // console.log('Added course:', addedCourse);
             return addedCourse;
         }
         catch (error) {
@@ -25,20 +25,20 @@ const courseRepositoryImp = (courseModel) => {
     });
     const addingClass = (classData) => __awaiter(void 0, void 0, void 0, function* () {
         const courseId = classData._id;
-        console.log(courseId, "courseid");
+        // console.log(courseId,"courseid");
         const { title, description, video } = classData;
         const newClass = {
             title, description, video
         };
-        console.log(newClass, "new class");
+        // console.log(newClass,"new class");
         const findCourse = yield courseModel.findById({ _id: courseId });
         if (!findCourse) {
             throw new errorHandle_1.AppError('error ', 404);
         }
-        console.log(findCourse, "findCourse by id ");
+        // console.log(findCourse,"findCourse by id ");
         findCourse.classes.push(newClass);
         const updateCourse = yield findCourse.save();
-        console.log(updateCourse, "upadate adddddddddd class to course");
+        // console.log(updateCourse,"upadate adddddddddd class to course");
         return updateCourse;
     });
     const findCourseByTitle = (title) => __awaiter(void 0, void 0, void 0, function* () {
@@ -66,12 +66,12 @@ const courseRepositoryImp = (courseModel) => {
             .findById(courseId)
             .populate("designer")
             .exec();
-        console.log(course, "course data in");
+        // console.log(course,"course data in");
         return course;
     });
     const findOneCourse = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
         const course = yield courseModel.findById(courseId);
-        console.log(course, "course data in");
+        // console.log(course,"course data in");
         return course;
     });
     const getAllCoursesById = (designerId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -94,7 +94,7 @@ const courseRepositoryImp = (courseModel) => {
     });
     const getAllCourses = () => __awaiter(void 0, void 0, void 0, function* () {
         const allCourses = yield courseModel.find({});
-        console.log(allCourses, "courses list");
+        // console.log(allCourses,"courses list");
         return allCourses;
     });
     const updateCourseById = (id, CourseDetails) => __awaiter(void 0, void 0, void 0, function* () {

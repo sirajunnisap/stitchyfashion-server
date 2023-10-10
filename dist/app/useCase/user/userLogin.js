@@ -19,7 +19,7 @@ const loginUser = (userRepository) => {
         if (!isUserExist) {
             throw new errorHandle_1.AppError('User is not exist', 404);
         }
-        console.log(isUserExist, "useer");
+        // console.log(isUserExist,"useer");
         const isblockedUser = yield userRepository.findUserIsBlock(email);
         if (isblockedUser)
             throw new errorHandle_1.AppError('user is blocked by admin', 404);
@@ -28,11 +28,11 @@ const loginUser = (userRepository) => {
             throw new errorHandle_1.AppError('you need to verify your email', 404);
         const ispasswordCorrect = yield (0, userValidationHelper_1.passwordCompare)(password, isUserExist.password);
         if (!ispasswordCorrect) {
-            console.log("password incorrect");
+            // console.log("password incorrect");
             throw new errorHandle_1.AppError('incorrect password', 401);
         }
         else {
-            console.log("password matched");
+            // console.log("password matched");
         }
         const userToken = yield (0, userValidationHelper_1.createToken)(isUserExist);
         const verifiedUser = {
@@ -45,7 +45,7 @@ const loginUser = (userRepository) => {
 exports.loginUser = loginUser;
 const loginGoogle = (userRepositoty) => {
     return (user) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(user, "user data ");
+        // console.log(user,"user data ");
         const { email, name, phone } = user;
         let verifiedUser;
         const isUserExist = yield userRepositoty.findOneUserByEmail(email);
@@ -57,7 +57,7 @@ const loginGoogle = (userRepositoty) => {
                 userData: newUser,
                 // message:'login success'
             };
-            console.log(verifiedUser, "verified user with token ,data");
+            // console.log(verifiedUser,"verified user with token ,data");
             return verifiedUser;
         }
         const token = yield (0, userValidationHelper_1.createToken)(isUserExist);

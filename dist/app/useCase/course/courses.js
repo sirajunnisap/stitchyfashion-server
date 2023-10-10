@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCoursesByCategoryId = void 0;
 const getCoursesByCategoryId = (courseRepository) => (categoryId) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(categoryId, "useCasecategoryID");
+    // console.log(categoryId,"useCasecategoryID");
     const courses = yield courseRepository.getAllCoursesByCategoryId(categoryId);
     return courses;
 });

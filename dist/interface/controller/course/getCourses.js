@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllCourses = void 0;
+exports.getDesignerCourses = exports.getAllCourses = void 0;
 const addCourses_1 = require("../../../app/useCase/course/addCourses");
 const courseModel_1 = require("../../../infra/database/model/courseModel");
 const courseRepository_1 = __importDefault(require("../../../infra/repositories/course/courseRepository"));
@@ -33,3 +33,15 @@ const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllCourses = getAllCourses;
+const getDesignerCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const designerID = req.params.id;
+        const courses = yield (0, addCourses_1.getCoursesByDesignerId)(courseRepository)(designerID);
+        res.status(200).json(courses);
+        return;
+    }
+    catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message || "something went wrong" });
+    }
+});
+exports.getDesignerCourses = getDesignerCourses;

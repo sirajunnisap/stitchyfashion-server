@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllCategories = exports.addCategory = void 0;
+exports.getAllCategories = exports.editCategory = exports.addCategory = void 0;
 const categoryModel_1 = require("../../../infra/database/model/categoryModel");
 const addCategory_1 = require("../../../app/useCase/admin/addCategory");
 const errorHandle_1 = require("../../../utils/errorHandle");
@@ -22,7 +22,7 @@ const categoryRepository = (0, categoryRepository_1.default)(db);
 const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const CategoryData = req.body;
-        console.log(CategoryData, "category data for add");
+        // console.log(CategoryData,"category data for add");
         const addedCategory = yield (0, addCategory_1.categoryAdding)(categoryRepository)(CategoryData);
         if (!addedCategory) {
             res.status(500).json({ message: "something went wrong" });
@@ -34,6 +34,26 @@ const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.addCategory = addCategory;
+const editCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const categoryId = req.params.id;
+        const data = req.body;
+        const categoryData = {
+            name: data.name,
+            description: data.description,
+            image: data.image
+        };
+        const updatedCategory = yield (0, addCategory_1.categoryEditUse)(categoryRepository)(categoryId, categoryData);
+        // console.log(updatedCategory);
+        if (updatedCategory) {
+            res.status(200).json(updatedCategory);
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message || 'something went wrong' });
+    }
+});
+exports.editCategory = editCategory;
 const getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allCategories = yield (0, addCategory_1.getCategories)(categoryRepository)();

@@ -1,6 +1,6 @@
 import express  from "express";
 import { adminLogin } from "../controller/admin/adminLoginController";
-import { blockUser, getAllUsers, searchUsers } from "../controller/admin/getusers";
+import { blockUser, getAllUsers, searchUsers,getAllPaymentedUsers } from "../controller/admin/getusers";
 import { blockDesigner, getAllDesigners, searchDesigners } from "../controller/admin/desigers";
 import { adminProfile, profileUpdate } from "../controller/admin/adminData";
 import { getAllCourses } from "../controller/course/getCourses";
@@ -16,6 +16,7 @@ adminRoute.get('/dashboard',adminAuthenticateToken,)
 adminRoute.get('/profile',adminAuthenticateToken,adminProfile)
 adminRoute.put('/updateProfile',adminAuthenticateToken,profileUpdate)
 adminRoute.get('/getUsers',getAllUsers);
+adminRoute.get('/getPaymentedUsers',getAllPaymentedUsers)
 adminRoute.patch('/block-user',blockUser);
 adminRoute.get('/getDesigners',getAllDesigners)
 adminRoute.patch('/block-designer',blockDesigner)

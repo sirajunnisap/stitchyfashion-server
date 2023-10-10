@@ -9,21 +9,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCategories = exports.categoryAdding = void 0;
+exports.getCategories = exports.categoryEditUse = exports.categoryAdding = void 0;
 const errorHandle_1 = require("../../../utils/errorHandle");
 const categoryAdding = (categoryRepository) => {
     return (category) => __awaiter(void 0, void 0, void 0, function* () {
+        const categoryname = category.name;
+        const toupperName = categoryname.toUpperCase();
+        category.name = toupperName;
         const isCategoryExist = yield categoryRepository.findCategoryByName(category.name);
+        console.log(isCategoryExist, "category exist");
         if (isCategoryExist) {
             throw new errorHandle_1.AppError('course is already Exist', 409);
         }
-        else {
-            const addedCategory = yield categoryRepository.addCategory(category);
-            return addedCategory;
-        }
+        console.log(category, "categoryitems");
+        const addedCategory = yield categoryRepository.addCategory(category);
+        return addedCategory;
     });
 };
 exports.categoryAdding = categoryAdding;
+const categoryEditUse = (categoryRepository) => {
+    return (id, categoryData) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const updatedCategory = yield categoryRepository.editCategory(id, categoryData);
+            return updatedCategory;
+        }
+        catch (error) {
+            throw error;
+        }
+    });
+};
+exports.categoryEditUse = categoryEditUse;
 const getCategories = (categoryRepository) => () => __awaiter(void 0, void 0, void 0, function* () {
     const category = yield categoryRepository.getAllCategories();
     return category;

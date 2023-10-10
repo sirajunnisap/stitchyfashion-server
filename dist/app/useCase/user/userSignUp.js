@@ -16,7 +16,7 @@ const signupUser = (userRepository) => {
     //return function for create new user
     return (user) => __awaiter(void 0, void 0, void 0, function* () {
         const hashpassword = yield (0, userValidationHelper_1.passwordHashing)(user === null || user === void 0 ? void 0 : user.password);
-        console.log(user.password, "password");
+        // console.log(user.password,"password");
         let newUser = Object.assign(Object.assign({}, user), { password: hashpassword });
         const isUserExist = yield userRepository.findOneUserByEmail(user.email);
         if (isUserExist) {

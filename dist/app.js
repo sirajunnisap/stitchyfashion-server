@@ -43,3 +43,47 @@ const errorHandler = (error, req, res, next) => {
 app.use(errorHandler);
 const PORT = Number(process.env.PORT) || 4000;
 const server = app.listen(4000, () => console.log(`server is running ${PORT}`));
+const io = require('socket.io')(server, {
+    pingTimeout: 60000,
+    cors: {
+        origin: ['http://localhost:3000', process.env.CLIENT_URL]
+    },
+});
+io.on("connection", (socket) => {
+    // console.log("connected to socket.io");
+    socket.on("setup", (userId) => {
+        socket.join(userId);
+        ``;
+        console.log("usr joined room", userId);
+        socket.emit("connected");
+    });
+    socket.on('join chat', (room) => {
+        socket.join(room);
+        console.log("User Joined room : " + room);
+    });
+    socket.on('new message', (newMessageReceived) => {
+        var _a, _b, _c, _d, _e;
+        console.log(newMessageReceived, "new message res.content");
+        let chat = newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.chat;
+        console.log('new message', newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.user);
+        const sender = (newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.user) ? newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.user : newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.designer;
+        console.log('sender is :', sender);
+        console.log('newMessage Recieved.chat,user ', (_a = newMessageReceived.chat) === null || _a === void 0 ? void 0 : _a.user);
+        if ((sender === null || sender === void 0 ? void 0 : sender._id) === ((_b = newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.chat) === null || _b === void 0 ? void 0 : _b.user._id)) {
+            console.log('user is the sender');
+            socket.in(chat === null || chat === void 0 ? void 0 : chat.designer._id).emit('message recieved', newMessageReceived);
+        }
+        if ((chat === null || chat === void 0 ? void 0 : chat._id) === ((_c = newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.chat) === null || _c === void 0 ? void 0 : _c.designer._id)) {
+            console.log('designer is the sender');
+            socket.in(chat === null || chat === void 0 ? void 0 : chat.user._id).emit('message recievd', newMessageReceived);
+        }
+        if ((chat === null || chat === void 0 ? void 0 : chat._id) === ((_d = newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.user) === null || _d === void 0 ? void 0 : _d._id))
+            return;
+        socket.in(chat === null || chat === void 0 ? void 0 : chat.user._id).emit('message recieved', newMessageReceived);
+        socket.on("typing", (currentId) => socket.to(currentId).emit("typing"));
+        socket.on("stoptyping", (currentId) => socket.to(currentId).emit("stoptyping"));
+        if ((chat === null || chat === void 0 ? void 0 : chat._id) === ((_e = newMessageReceived === null || newMessageReceived === void 0 ? void 0 : newMessageReceived.designer) === null || _e === void 0 ? void 0 : _e._id))
+            return;
+        socket.in(chat === null || chat === void 0 ? void 0 : chat.designer._id).emit('message recieved', newMessageReceived);
+    });
+});

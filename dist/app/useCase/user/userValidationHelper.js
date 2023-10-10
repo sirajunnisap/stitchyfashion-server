@@ -19,7 +19,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
 dotenv_1.default.config({ path: path_1.default.resolve(__dirname, '../.env') });
 const passwordHashing = (password) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(password, "pawwdsf");
+    // console.log(password,"pawwdsf");
     const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     return hashedPassword;
 });

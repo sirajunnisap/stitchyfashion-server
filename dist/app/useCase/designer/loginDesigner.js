@@ -15,9 +15,9 @@ const designerValidationHelper_1 = require("./designerValidationHelper");
 const loginDesigner = (designerRepository) => {
     return (designer) => __awaiter(void 0, void 0, void 0, function* () {
         const { email, password } = designer;
-        console.log(email, password, "designeremailpassword");
+        // console.log(email,password,"designeremailpassword");
         const isDesignerExist = yield designerRepository.findDesignerByEmail(email);
-        console.log(isDesignerExist, "designer exist");
+        // console.log(isDesignerExist,"designer exist");
         if (!isDesignerExist) {
             throw new errorHandle_1.AppError("adminis not exist", 400);
         }

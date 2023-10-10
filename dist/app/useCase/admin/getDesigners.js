@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isBlockDesigner = exports.getDesignerById = exports.getDesigners = void 0;
+exports.searchUsecase = exports.isBlockDesigner = exports.getDesignerById = exports.getDesigners = void 0;
 const getDesigners = (designerRepository) => () => __awaiter(void 0, void 0, void 0, function* () {
     const designers = yield designerRepository.getAllDesigners();
     return designers;
@@ -30,3 +30,8 @@ const isBlockDesigner = (designerRepository) => {
     });
 };
 exports.isBlockDesigner = isBlockDesigner;
+const searchUsecase = (designerRepository) => (searchQuery, sortCriteria) => __awaiter(void 0, void 0, void 0, function* () {
+    const designer = yield designerRepository.searchDesigner(searchQuery, sortCriteria);
+    return designer;
+});
+exports.searchUsecase = searchUsecase;

@@ -1,8 +1,9 @@
 import { Request,Response } from "express"
 import { designerModel } from "../../../infra/database/model/designerModel";
 import designerRepositoryImp from "../../../infra/repositories/designer/designerRepository";
-import { getDesignerById, updateProfile } from "../../../app/useCase/designer/designerDetails";
+import { getDesignerById,updateProfile } from "../../../app/useCase/designer/designerDetails";
 import { CustomRequest } from "../../middleware/authMiddleware";
+import { getCoursesByDesignerId } from "../../../app/useCase/course/addCourses";
 
 
 const db = designerModel
@@ -67,6 +68,7 @@ export const getDesigner =async (req:Request,res:Response)=>{
     res.status(200).json(designer)
     return 
  } catch (error) {
+    console.log(error);
     
  }
 }

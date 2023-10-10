@@ -1,0 +1,60 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const paymentRepositoryImp = (paymentModel) => {
+    const addPayment = (paymentData) => __awaiter(void 0, void 0, void 0, function* () {
+        // console.log(paymentData,"payment data for addddd pdb");
+        try {
+            console.log(paymentData.selectedCourse, "selected course");
+            let course = new paymentModel({
+                amount: paymentData.amount,
+                selectedCourse: paymentData.selectedCourse,
+                user: paymentData.user
+            });
+            const enrldCrse = yield course.save();
+            // const addedPayment = await paymentModel.create(paymentData)
+            // console.log(enrldCrse,"cpirse payment ds fka;jf");
+            return enrldCrse;
+        }
+        catch (error) {
+            // console.error('Error adding course:', error);
+            throw error;
+        }
+    });
+    const findUsers = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
+        // console.log(courseId,"course di for find usersssssssssss")
+        try {
+            const paymentWithUser = yield paymentModel.find({ selectedCourse: courseId }).populate('user').populate('selectedCourse');
+            // console.log(paymentWithUser,"populated user form payment model lllllllllll");
+            return paymentWithUser;
+        }
+        catch (error) {
+        }
+    });
+    const findPurchasedCourse = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const paymentedCourses = yield paymentModel.find({ user: userId }).populate('selectedCourse');
+            return paymentedCourses;
+        }
+        catch (error) {
+        }
+    });
+    const getPaymentedUser = (userId, courseId) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const paymentedUser = yield paymentModel.findOne({ user: userId, selectedCourse: courseId });
+            return paymentedUser;
+        }
+        catch (error) {
+        }
+    });
+    return { addPayment, findUsers, findPurchasedCourse, getPaymentedUser };
+};
+exports.default = paymentRepositoryImp;

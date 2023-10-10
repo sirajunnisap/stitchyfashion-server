@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getUsers, isBlockUser, searchUsecase } from "../../../app/useCase/admin/getUsers";
+import { getUsers, isBlockUser, searchUsecase ,getPaymentedUsers, getUserById} from "../../../app/useCase/admin/getUsers";
 import { AppError } from "../../../utils/errorHandle";
 import { userModel } from "../../../infra/database/model/userModel";
 import userRepositoryImp from "../../../infra/repositories/user/userRepository";
@@ -31,6 +31,20 @@ export const getAllUsers = async (req: Request, res: Response) => {
 }
 
 
+export const getAllPaymentedUsers = async (req: Request, res: Response) => {
+    try {
+        const allUsers = await getPaymentedUsers(userRepository)()
+        if (!allUsers) {
+            throw new AppError("something went wrong", 400);
+
+        }
+        res.status(200).json(allUsers)
+        return
+
+    } catch (error: any) {
+        res.status(error.statusCode || 500).json({ message: error.message || "something went wrong" })
+    }
+}
 
 export const blockUser = async (req: Request, res: Response) => {
     try {
@@ -78,5 +92,16 @@ export const searchUsers = async (req: Request, res: Response) => {
     } catch (error: any) {
         console.log(error)
         res.status(error.statusCode || 500).json({ message: error.message || 'Somthing went wrong' })
+    }
+}
+
+export const getUserData = async (req: Request, res: Response) => {
+    try {
+         const userId:any = req.params.id 
+         const userData = await getUserById(userId)
+         res.status(200).json(userData)
+         return
+    } catch (error) {
+        
     }
 }
