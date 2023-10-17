@@ -50,7 +50,9 @@ const paymentforCourse = (req, res) => __awaiter(void 0, void 0, void 0, functio
         // paymentData.course = courseId
         paymentData.user = userId;
         const addedPayment = yield (0, addPaymentUse_1.addPaymentUse)(paymentRepository)(paymentData);
-        // console.log(addedPayment,"addedpapypemnt");
+        console.log(addedPayment, "addedpapypemnt");
+        res.status(200).json(addedPayment);
+        return;
     }
     catch (error) {
     }

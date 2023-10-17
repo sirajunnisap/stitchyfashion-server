@@ -32,4 +32,5 @@ adminRoute.get('/getCategories', addCategory_1.getAllCategories);
 adminRoute.get('/users', getusers_1.searchUsers);
 adminRoute.get('/designers', desigers_1.searchDesigners);
 adminRoute.get('/categoryDetails/:id', CourseDetails_1.CategoryDetails);
+adminRoute.get(`/userMoreInfo/:id`, getusers_1.getUserMoreInfo);
 exports.default = adminRoute;

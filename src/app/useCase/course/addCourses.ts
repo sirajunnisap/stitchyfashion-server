@@ -22,13 +22,6 @@ export const courseAdding = (courseRepository:courseRepository)=>{
 export const addClassUseCase = (courseRepository:courseRepository)=>{
     return async(classes:Classes):Promise<Course|null>=>{
 
-        
-        const isClassExist = await courseRepository.findClassByTitle(classes.title)
-        // console.log(isClassExist,"class already exist");
-        
-        if(isClassExist){
-            throw new AppError('class is already exist',409)
-        }
         const addClass = await courseRepository.addingClass(classes)
         return addClass
     }

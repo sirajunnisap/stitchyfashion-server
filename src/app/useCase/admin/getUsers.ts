@@ -45,4 +45,3 @@ export const searchUsecase = (userRepository:userRepository)=>
     return users
   }
 
-

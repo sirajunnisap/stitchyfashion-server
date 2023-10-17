@@ -50,10 +50,11 @@ export const paymentforCourse =async (req:CustomRequest,res:Response)=>{
         // paymentData.course = courseId
         paymentData.user = userId
 
-        const addedPayment:Payment = await addPaymentUse(paymentRepository)(paymentData)
-        // console.log(addedPayment,"addedpapypemnt");
+        const addedPayment:Payment|null = await addPaymentUse(paymentRepository)(paymentData)
+        console.log(addedPayment,"addedpapypemnt");
         
-        
+        res.status(200).json(addedPayment)
+        return
     } catch (error) {
         
     }
@@ -111,6 +112,18 @@ export const getPurchasedCourses = async(req:CustomRequest,res:Response)=>{
 
     } catch (error) {
         console.log(error);
+        
+    }
+}
+
+
+export const getUserMoreInfo = async (req: Request, res: Response) => {
+    try {
+         const userId:any = req.params.id 
+         const result = await purchasedCoursesUse(paymentRepository)(userId)
+         res.status(200).json(result)
+         return
+    } catch (error) {
         
     }
 }

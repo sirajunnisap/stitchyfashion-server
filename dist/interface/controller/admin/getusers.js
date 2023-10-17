@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserData = exports.searchUsers = exports.blockUser = exports.getAllPaymentedUsers = exports.getAllUsers = void 0;
+exports.getUserMoreInfo = exports.getUserData = exports.searchUsers = exports.blockUser = exports.getAllPaymentedUsers = exports.getAllUsers = void 0;
 const getUsers_1 = require("../../../app/useCase/admin/getUsers");
 const errorHandle_1 = require("../../../utils/errorHandle");
 const userModel_1 = require("../../../infra/database/model/userModel");
 const userRepository_1 = __importDefault(require("../../../infra/repositories/user/userRepository"));
+const addPaymentUse_1 = require("../../../app/useCase/payment/addPaymentUse");
 const db = userModel_1.userModel;
 const userRepository = (0, userRepository_1.default)(db);
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -104,3 +105,14 @@ const getUserData = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getUserData = getUserData;
+const getUserMoreInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.id;
+        const userData = yield (0, addPaymentUse_1.purchasedCoursesUse)(userId);
+        res.status(200).json(userData);
+        return;
+    }
+    catch (error) {
+    }
+});
+exports.getUserMoreInfo = getUserMoreInfo;

@@ -6,7 +6,7 @@ export type MongoDBCourse = Model<Document<any, any, any >& Course>
 const courseSchema = new Schema<Course>({
     title:{type:String,required:true},
     description:{type:String,required:true},
-    designer:{type:mongoose.Schema.Types.ObjectId, ref: 'Designer' },
+    designer:{type:mongoose.Schema.Types.ObjectId, ref: 'designer' },
     category:{type:mongoose.Schema.Types.ObjectId, ref: 'Category' },
     courseFee:{type:Number,required:true},
     image:{type:String},

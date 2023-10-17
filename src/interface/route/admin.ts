@@ -8,6 +8,7 @@ import { adminAuthenticateToken } from "../middleware/authMiddleware";
 import { designerRegister } from "../controller/admin/addDesigner";
 import { addCategory, editCategory, getAllCategories } from "../controller/course/addCategory";
 import { CategoryDetails, CourseDetails } from "../controller/course/CourseDetails";
+import { getUserMoreInfo } from "../controller/course/payment";
 
 const adminRoute = express.Router();
 
@@ -29,4 +30,5 @@ adminRoute.get('/getCategories',getAllCategories);
 adminRoute.get('/users',searchUsers);
 adminRoute.get('/designers',searchDesigners)
 adminRoute.get('/categoryDetails/:id',CategoryDetails)
+adminRoute.get(`/getUserMoreInfo/:id`,getUserMoreInfo)
 export default adminRoute ;

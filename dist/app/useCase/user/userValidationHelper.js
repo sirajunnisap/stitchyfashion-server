@@ -34,7 +34,7 @@ const createToken = (user) => {
     if (!secretKey) {
         throw new Error('JWT secret key is not defined');
     }
-    const token = jsonwebtoken_1.default.sign({ user }, secretKey, { expiresIn: '1h' });
+    const token = jsonwebtoken_1.default.sign({ user }, secretKey, { expiresIn: '1day' });
     return token;
 };
 exports.createToken = createToken;

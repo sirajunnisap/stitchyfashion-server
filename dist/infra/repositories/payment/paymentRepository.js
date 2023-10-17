@@ -20,9 +20,12 @@ const paymentRepositoryImp = (paymentModel) => {
                 user: paymentData.user
             });
             const enrldCrse = yield course.save();
-            // const addedPayment = await paymentModel.create(paymentData)
-            // console.log(enrldCrse,"cpirse payment ds fka;jf");
-            return enrldCrse;
+            const addedPayment = yield paymentModel.findOne({ _id: enrldCrse === null || enrldCrse === void 0 ? void 0 : enrldCrse._id }).populate('selectedCourse').populate('user');
+            console.log(addedPayment, "aadddddddd paymeeeeeeee");
+            console.log(enrldCrse, "cpirse payment ds fka;jf");
+            // const enrldCrseData:any = await courseModel.findOne({_id:enrldCrse._id})
+            // .populate('selectedCourse').populate('user')
+            return addedPayment;
         }
         catch (error) {
             // console.error('Error adding course:', error);

@@ -14,6 +14,7 @@ const ChatRepository = ChatRepositoryImp(db)
 export const accessChatController = async(req:CustomRequest,res:Response)=>{
     const designerIdObject = req.body;
         const designerId= Object.keys(designerIdObject)[0];
+        
     const userId = req.user?.user._id
 
     // console.log(userId,designerId,"userid and designer id for access chattttttttt");

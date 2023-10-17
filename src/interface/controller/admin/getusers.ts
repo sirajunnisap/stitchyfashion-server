@@ -4,6 +4,7 @@ import { AppError } from "../../../utils/errorHandle";
 import { userModel } from "../../../infra/database/model/userModel";
 import userRepositoryImp from "../../../infra/repositories/user/userRepository";
 import { User } from "../../../domain/entities/userModel";
+import { purchasedCoursesUse } from "../../../app/useCase/payment/addPaymentUse";
 const db = userModel
 const userRepository = userRepositoryImp(db)
 interface UserData {
@@ -98,10 +99,11 @@ export const searchUsers = async (req: Request, res: Response) => {
 export const getUserData = async (req: Request, res: Response) => {
     try {
          const userId:any = req.params.id 
-         const userData = await getUserById(userId)
+         const userData = await getUserById(userRepository)(userId)
          res.status(200).json(userData)
          return
     } catch (error) {
         
     }
 }
+

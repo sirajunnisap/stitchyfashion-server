@@ -24,7 +24,7 @@ export const createToken = (user:any):string =>{
     if(!secretKey){
         throw new Error('JWT secret key is not defined');
     }
-    const token = jwt.sign({user}, secretKey as string, {expiresIn: '1h'})
+    const token = jwt.sign({user}, secretKey as string, {expiresIn: '1day'})
     return token
 
 }

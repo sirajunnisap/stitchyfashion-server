@@ -1,15 +1,16 @@
 import { Payment } from "../../../domain/entities/paymentModel"
+import { courseModel } from "../../database/model/courseModel"
 import { MongoDBPayment } from "../../database/model/paymentModel"
 
 export type paymentRepository = {
-    addPayment :(paymentData:Payment)=>Promise<Payment>
+    addPayment :(paymentData:Payment)=>Promise<any>
     findUsers:(courseId:any)=>Promise<any>
     findPurchasedCourse:(userId:any)=>Promise<Payment[]|undefined>
     getPaymentedUser:(userId:any,courseId:any)=>Promise<any>
 }
 
 const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
-    const addPayment = async(paymentData:Payment):Promise<Payment>=>{
+    const addPayment = async(paymentData:Payment):Promise<Payment|null>=>{
         // console.log(paymentData,"payment data for addddd pdb");
         
         try {
@@ -24,10 +25,14 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
 
             })
            const enrldCrse=await  course.save()
-            // const addedPayment = await paymentModel.create(paymentData)
-            // console.log(enrldCrse,"cpirse payment ds fka;jf");
+            const addedPayment = await paymentModel.findOne({_id:enrldCrse?._id}).populate('selectedCourse').populate('user')
+            console.log(addedPayment,"aadddddddd paymeeeeeeee");
             
-            return enrldCrse;
+            console.log(enrldCrse,"cpirse payment ds fka;jf");
+            
+            // const enrldCrseData:any = await courseModel.findOne({_id:enrldCrse._id})
+            // .populate('selectedCourse').populate('user')
+            return addedPayment;
             
         } catch (error) {
             // console.error('Error adding course:', error);
@@ -49,7 +54,14 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
 
     const findPurchasedCourse = async(userId:any):Promise<Payment[]|undefined>=>{
         try {
-            const paymentedCourses = await paymentModel.find({user:userId}).populate('selectedCourse')
+            let paymentedCourses = await paymentModel.find({user:userId})
+            .populate('user')
+            .populate({
+                path: 'selectedCourse',
+                populate: {
+                    path: 'designer',
+                },
+            })
 
             return paymentedCourses
         } catch (error) {
@@ -65,6 +77,8 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
             
         }
     }
+
+   
     return {addPayment,findUsers,findPurchasedCourse,getPaymentedUser}
 }
 
