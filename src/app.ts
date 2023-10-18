@@ -64,6 +64,7 @@ const io = require('socket.io')(server, {
     cors: {
         origin: [
             'https://stitchy-inky.vercel.app',
+            'https://stitchy-inky.vercel.app/',
             'https://stitchy-git-main-sirajunnisas-projects.vercel.app'
         ]
     },
