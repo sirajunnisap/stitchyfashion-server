@@ -21,7 +21,7 @@ const app: Application = express()
 
 //Enable CORS for all routes
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app','https://stitchy-git-main-sirajunnisas-projects.vercel.app/'],
+    origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app','https://stitchy-git-main-sirajunnisas-projects.vercel.app'],
   }));
   
 app.use(express.json({ limit: '500mb' }));
@@ -62,12 +62,12 @@ const server: Server = app.listen(4000, () => console.log(`server is running ${P
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: ['https://stitchy-inky.vercel.app'
-    ,'https://stitchy-git-main-sirajunnisas-projects.vercel.app/'
-]
-
+        origin: [
+            'https://stitchy-inky.vercel.app',
+            'https://stitchy-git-main-sirajunnisas-projects.vercel.app'
+        ]
     },
-})
+});
 
 io.on("connection", (socket: any) => {
     // console.log("connected to socket.io");
