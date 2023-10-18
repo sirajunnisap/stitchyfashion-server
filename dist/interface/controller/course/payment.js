@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPurchasedCourses = exports.getPaymentedUsers = exports.paymentUser = exports.paymentforCourse = exports.checkout = void 0;
+exports.getUserMoreInfo = exports.getPurchasedCourses = exports.getPaymentedUsers = exports.paymentUser = exports.paymentforCourse = exports.checkout = void 0;
 const courseModel_1 = require("../../../infra/database/model/courseModel");
 const courseRepository_1 = __importDefault(require("../../../infra/repositories/course/courseRepository"));
 const addCourses_1 = require("../../../app/useCase/course/addCourses");
@@ -103,3 +103,14 @@ const getPurchasedCourses = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getPurchasedCourses = getPurchasedCourses;
+const getUserMoreInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.params.id;
+        const result = yield (0, addPaymentUse_1.purchasedCoursesUse)(paymentRepository)(userId);
+        res.status(200).json(result);
+        return;
+    }
+    catch (error) {
+    }
+});
+exports.getUserMoreInfo = getUserMoreInfo;

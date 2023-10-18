@@ -46,14 +46,20 @@ const sendMessageDsgr = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.sendMessageDsgr = sendMessageDsgr;
 const getMessageBychatId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const chatId = req.params.id;
-    // console.log(chatId,"chatidddddddd");
+    const chatId = req.params.chatId;
+    console.log(chatId, "chatidddddddd");
     try {
         const message = yield (0, accessChat_1.getAllMessages)(messageRepository)(chatId);
-        res.status(201).json(message);
+        if (message) {
+            res.status(201).json(message);
+        }
+        else {
+            res.status(404).json({ message: 'Not Found' });
+        }
     }
     catch (error) {
         console.log(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 exports.getMessageBychatId = getMessageBychatId;

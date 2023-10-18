@@ -22,7 +22,7 @@ const ChatRepositoryImp = (chatModel) => {
         })
             .populate('user').populate("designer");
         // .populate('latestMessage')
-        // console.log(isChat,"chats ");
+        console.log(isChat, "chats ");
         if (isChat.length > 0) {
             return isChat[0];
         }
@@ -36,7 +36,7 @@ const ChatRepositoryImp = (chatModel) => {
             const createdChat = yield chatModel.create(chatData);
             // console.log(createChat,"created chat");
             const fullChat = yield chatModel.findOne({ _id: createdChat._id }).populate('user', '-password').populate('designer', '-password');
-            // console.log(fullChat,'chatttttttttttt');
+            console.log(fullChat, 'chatttttttttttt');
             return fullChat;
         }
     });

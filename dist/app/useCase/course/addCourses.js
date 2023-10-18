@@ -26,11 +26,6 @@ const courseAdding = (courseRepository) => {
 exports.courseAdding = courseAdding;
 const addClassUseCase = (courseRepository) => {
     return (classes) => __awaiter(void 0, void 0, void 0, function* () {
-        const isClassExist = yield courseRepository.findClassByTitle(classes.title);
-        // console.log(isClassExist,"class already exist");
-        if (isClassExist) {
-            throw new errorHandle_1.AppError('class is already exist', 409);
-        }
         const addClass = yield courseRepository.addingClass(classes);
         return addClass;
     });

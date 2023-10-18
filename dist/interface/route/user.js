@@ -37,5 +37,5 @@ userRoute.get('/getPurchasedCourses', authMiddleware_1.userAuthenticateToken, pa
 userRoute.post('/access-chat', authMiddleware_1.userAuthenticateToken, userChat_1.accessChatController);
 userRoute.get('/user-chat/:id', userChat_1.fetchUserChatController);
 userRoute.post('/sendMessage', authMiddleware_1.userAuthenticateToken, sendMessage_1.sendMessage);
-// userRoute.get('/getMsgByChatId/:id',userAuthenticateToken,getMessageBychatId)
+userRoute.get('/getMsgByChatId/:chatId', authMiddleware_1.userAuthenticateToken, sendMessage_1.getMessageBychatId);
 exports.default = userRoute;

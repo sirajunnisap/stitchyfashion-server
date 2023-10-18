@@ -27,6 +27,7 @@ exports.getUsersfromPymt = getUsersfromPymt;
 const purchasedCoursesUse = (paymentRepository) => {
     return (userId) => __awaiter(void 0, void 0, void 0, function* () {
         const purchaseCourses = yield paymentRepository.findPurchasedCourse(userId);
+        console.log(purchaseCourses, "purchased courseeee");
         return purchaseCourses;
     });
 };

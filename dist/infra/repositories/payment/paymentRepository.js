@@ -44,7 +44,14 @@ const paymentRepositoryImp = (paymentModel) => {
     });
     const findPurchasedCourse = (userId) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const paymentedCourses = yield paymentModel.find({ user: userId }).populate('selectedCourse');
+            let paymentedCourses = yield paymentModel.find({ user: userId })
+                .populate('user')
+                .populate({
+                path: 'selectedCourse',
+                populate: {
+                    path: 'designer',
+                },
+            });
             return paymentedCourses;
         }
         catch (error) {

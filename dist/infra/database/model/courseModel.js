@@ -28,7 +28,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const courseSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    designer: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Designer' },
+    designer: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'designer' },
     category: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Category' },
     courseFee: { type: Number, required: true },
     image: { type: String },
