@@ -62,7 +62,7 @@ const server: Server = app.listen(4000, () => console.log(`server is running ${P
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: ['https://greendoor.website']
+        origin: ['https://stitchy-inky.vercel.app']
 
     },
 })
