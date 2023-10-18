@@ -37,7 +37,7 @@ userRoute.get('/user-chat/:id',fetchUserChatController)
 
 
 userRoute.post('/sendMessage',userAuthenticateToken,sendMessage)
-userRoute.get('/getMsgByChatId/:id',userAuthenticateToken,getMessageBychatId)
+userRoute.get('/getMsgByChatId/:chatId', userAuthenticateToken, getMessageBychatId);
 
 
 export default userRoute;

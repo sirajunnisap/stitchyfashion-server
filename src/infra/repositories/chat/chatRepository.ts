@@ -24,7 +24,7 @@ export const ChatRepositoryImp = (chatModel:MongoDBChat):ChatRepository=>{
         
         // .populate('latestMessage')
 
-        // console.log(isChat,"chats ");
+        console.log(isChat,"chats ");
         
         if(isChat.length>0){
             return isChat[0]
@@ -42,7 +42,7 @@ export const ChatRepositoryImp = (chatModel:MongoDBChat):ChatRepository=>{
             // console.log(createChat,"created chat");
             
             const fullChat = await chatModel.findOne({_id:createdChat._id}).populate('user','-password').populate('designer','-password')
-            // console.log(fullChat,'chatttttttttttt');
+            console.log(fullChat,'chatttttttttttt');
 
             return fullChat
             

@@ -47,17 +47,19 @@ export const sendMessageDsgr = async(req:CustomRequest,res:Response)=>{
    
 }
 
+export const getMessageBychatId = async (req: CustomRequest, res: Response) => {
+    const chatId = req.params.chatId;
+    console.log(chatId, "chatidddddddd");
 
-export const getMessageBychatId = async(req:Request,res:Response)=>{
-    const chatId = req.params.id
-    // console.log(chatId,"chatidddddddd");
-    
     try {
-        
-        const message = await getAllMessages(messageRepository)(chatId)
-        res.status(201).json(message)
+        const message = await getAllMessages(messageRepository)(chatId);
+        if (message) {
+            res.status(201).json(message);
+        } else {
+            res.status(404).json({ message: 'Not Found' });
+        }
     } catch (error) {
         console.log(error);
-        
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 }

@@ -62,7 +62,7 @@ const server: Server = app.listen(4000, () => console.log(`server is running ${P
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: ['http://localhost:3000', process.env.CLIENT_URL as string]
+        origin: ['https://greendoor.website', process.env.CLIENT_URL as string]
 
     },
 })
