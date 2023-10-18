@@ -21,7 +21,7 @@ const app: Application = express()
 
 //Enable CORS for all routes
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app'],
+    origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app','stitchy-3gkkacsoq-sirajunnisas-projects.vercel.app'],
   }));
   
 app.use(express.json({ limit: '500mb' }));
