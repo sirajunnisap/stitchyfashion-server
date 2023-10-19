@@ -17,8 +17,8 @@ const designer_1 = __importDefault(require("./interface/route/designer"));
 const app = (0, express_1.default)();
 //Enable CORS for all routes
 app.use((0, cors_1.default)({
-    // origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app','https://stitchy-git-main-sirajunnisas-projects.vercel.app'],
-    origin: "*"
+    origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app'],
+    // origin: "*"
 }));
 app.use(express_1.default.json({ limit: '500mb' }));
 app.use(express_1.default.urlencoded({ extended: true, limit: '500mb' }));
@@ -49,12 +49,9 @@ const server = app.listen(4000, () => console.log(`server is running ${PORT}`));
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        // origin: [
-        //     'https://stitchy-inky.vercel.app',
-        //     'https://stitchy-inky.vercel.app/',
-        //     'https://stitchy-git-main-sirajunnisas-projects.vercel.app'
-        // ]
-        origin: "*"
+        origin: ['https://stitchy-inky.vercel.app', 'http://localhost:3000'
+        ]
+        // origin: "*"
     },
 });
 io.on("connection", (socket) => {
