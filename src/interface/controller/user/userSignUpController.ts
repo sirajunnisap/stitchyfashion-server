@@ -77,7 +77,7 @@ export const userSignup =async (req:Request ,res:Response) => {
             from: 'sirajunnisap4@gmail.com',
             to: email,
             subject: 'verification Email',
-            html: `<p>Hi ${name}, please click <a href="http://localhost:3000/verifyEmail/${user_id}">here</a> to verify your email.</p>`
+            html: `<p>Hi ${name}, please click <a href="https://stitchy-inky.vercel.app/verifyEmail/${user_id}">here</a> to verify your email.</p>`
         };
 
         const info = await transporter.sendMail(mailOptions);
