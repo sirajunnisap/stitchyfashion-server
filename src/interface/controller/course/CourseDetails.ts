@@ -7,7 +7,7 @@ import { loginAdmin } from "../../../app/useCase/admin/adminLogin";
 import { categoryModel } from "../../../infra/database/model/categoryModel";
 import categoryRepositoryImp from "../../../infra/repositories/course/categoryRepository";
 import { getCategories } from "../../../app/useCase/admin/addCategory";
-import { getCoursesByCategoryId } from "../../../app/useCase/course/courses";
+import { getCoursesByCategoryId,getCourseforDashUse } from "../../../app/useCase/course/courses";
 
 
 const db = courseModel
@@ -88,5 +88,19 @@ export const CategoryDetails = async(req:Request,res:Response)=>{
     } catch (error:any) {                                                                                                                                               
         // console.error(error);
         res.status(500).json({ error: 'Internal server error.' });
+    }
+}
+
+export const getCourseseByCategory =async(req:Request,res:Response)=>{
+    
+
+    try {
+        const courseData = await getCourseforDashUse(courseRepository)()
+        
+        console.log(courseData,"courseDDDDDDDDDdddddata for         dashbour");
+        
+        res.status(200).json(courseData)
+    } catch (error) {
+        
     }
 }

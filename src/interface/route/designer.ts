@@ -7,7 +7,7 @@ import { designerAuthenticateToken } from "../middleware/authMiddleware";
 import { uploadImage } from "../controller/designer/uploadTutorials";
 import { getAllCategories } from "../controller/course/getCategories";
 import { verifyEmail } from "../controller/admin/addDesigner";
-import { getPaymentedUsers } from "../controller/course/payment";
+import { getPaymentedUsers, getPyUsrsforDashboard } from "../controller/course/payment";
 import { getUserData, searchUsers } from "../controller/admin/getusers";
 
 import { getMessageBychatId, sendMessageDsgr } from "../controller/chat/sendMessage";
@@ -42,6 +42,6 @@ designerRoute.get('/getUserData/:id',getUserData)
 designerRoute.post('/access-chat',designerAuthenticateToken,accessChatController)
 designerRoute.get('/getMsgByChatId/:id',designerAuthenticateToken,getMessageBychatId)
 designerRoute.post('/sendMessageDsgr',designerAuthenticateToken,sendMessageDsgr)
-
+designerRoute.get('/getPaymentedUsers',designerAuthenticateToken,getPyUsrsforDashboard)
 
 export default designerRoute

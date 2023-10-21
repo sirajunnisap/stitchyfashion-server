@@ -62,3 +62,17 @@ export const searchDesigners = async (req: Request, res: Response) => {
         res.status(error.statusCode || 500).json({ message: error.message || 'Somthing went wrong' })
     }
 }
+
+
+
+
+// export const getDesignerMoreInfo = async (req: Request, res: Response) => {
+//     try {
+//          const userId:any = req.params.id 
+//          const result = await purchasedCoursesUse(paymentRepository)(userId)
+//          res.status(200).json(result)
+//          return
+//     } catch (error) {
+        
+//     }
+// }

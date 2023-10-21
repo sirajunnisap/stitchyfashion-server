@@ -3,6 +3,7 @@ import { getCourses, getCoursesByDesignerId } from "../../../app/useCase/course/
 import { courseModel } from "../../../infra/database/model/courseModel";
 import courseRepositoryImp from "../../../infra/repositories/course/courseRepository";
 import { AppError } from "../../../utils/errorHandle";
+import { searchUsecase } from "../../../app/useCase/course/courses";
 
 const db = courseModel
 const courseRepository = courseRepositoryImp(db)
@@ -34,5 +35,34 @@ export const getDesignerCourses = async(req:Request,res:Response)=>{
         return
     } catch (error:any) {
         res.status(error.statusCode||500).json({message:error.message|| "something went wrong"})
+    }
+}
+
+export const searchCourses = async (req: Request, res: Response) => {
+    try {
+        const searchQuery = req.query.q as string
+
+        console.log(searchQuery,"searching quey form frontend");
+        
+        const sort = req.query.sort
+
+        console.log(sort,"sorting data from frondent");
+        
+        let sortCriteria: object = {}
+        if (sort === 'name-1') sortCriteria = { name: 1 }
+        else if (sort === 'name1') sortCriteria = { name: -1 }
+        else sortCriteria = {}
+
+        console.log(sortCriteria,"sortcriteria");
+        
+        const result = await searchUsecase(courseRepository)(searchQuery, sortCriteria)
+
+        console.log(result,"result");
+        
+        res.status(200).json(result)
+
+    } catch (error: any) {
+        console.log(error)
+        res.status(error.statusCode || 500).json({ message: error.message || 'Somthing went wrong' })
     }
 }

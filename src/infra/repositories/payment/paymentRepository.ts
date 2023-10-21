@@ -7,6 +7,7 @@ export type paymentRepository = {
     findUsers:(courseId:any)=>Promise<any>
     findPurchasedCourse:(userId:any)=>Promise<Payment[]|undefined>
     getPaymentedUser:(userId:any,courseId:any)=>Promise<any>
+    findPaymentedUsers:(designerId:any)=>Promise<any>
 }
 
 const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
@@ -15,20 +16,22 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
         
         try {
 
-            console.log(paymentData.selectedCourse,"selected course");
+
+
+            console.log(paymentData,"selected course");
             
             let course=new paymentModel({
                 amount:paymentData.amount,
                 selectedCourse:paymentData.selectedCourse,
-                user:paymentData.user
-
+                user:paymentData.user,
+                designer:paymentData.designer
 
             })
            const enrldCrse=await  course.save()
-            const addedPayment = await paymentModel.findOne({_id:enrldCrse?._id}).populate('selectedCourse').populate('user')
-            console.log(addedPayment,"aadddddddd paymeeeeeeee");
+            const addedPayment = await paymentModel.findOne({_id:enrldCrse?._id}).populate('selectedCourse').populate('user').populate('designer')
+            // console.log(addedPayment,"aadddddddd paymeeeeeeee");
             
-            console.log(enrldCrse,"cpirse payment ds fka;jf");
+            // console.log(enrldCrse,"cpirse payment ds fka;jf");
             
             // const enrldCrseData:any = await courseModel.findOne({_id:enrldCrse._id})
             // .populate('selectedCourse').populate('user')
@@ -78,8 +81,17 @@ const paymentRepositoryImp = (paymentModel:MongoDBPayment):paymentRepository =>{
         }
     }
 
-   
-    return {addPayment,findUsers,findPurchasedCourse,getPaymentedUser}
+    const findPaymentedUsers = async(designerId:any):Promise<any>=>{
+        try {
+            const paymentedUser = await paymentModel.find({designer:designerId})
+            console.log(paymentedUser,"paymentedddddddd usersss");
+            
+        return paymentedUser
+        } catch (error) {
+            
+        }
+    }
+    return {addPayment,findUsers,findPurchasedCourse,getPaymentedUser,findPaymentedUsers}
 }
 
 

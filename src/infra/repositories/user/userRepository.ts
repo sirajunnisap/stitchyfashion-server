@@ -119,6 +119,10 @@ const userRepositoryImp = (UserModel: MongoDBUser): userRepository => {
         const searchresult = await userModel.find({name:{$regex:searchQuery,$options:'i'}},{password:0}).sort(sortCriteria);
         return searchresult
     }
+
+    
+
+
     return {createUser,findOneUserByEmail,getAllUsers,getUserById,updateUserById,updateIsBlock,findUserIsBlock,findUserIsMailVerified,searchUser,getAllPaymentedUsers }
 }
 export default userRepositoryImp

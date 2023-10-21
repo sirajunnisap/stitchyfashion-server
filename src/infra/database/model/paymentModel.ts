@@ -7,6 +7,7 @@ const paymentSchema = new Schema<Payment>({
     amount:{type:String},
     selectedCourse:{type:mongoose.Schema.Types.ObjectId, ref: 'course' },
     user:{type:mongoose.Schema.Types.ObjectId, ref: 'user' },
+    designer:{type:mongoose.Schema.Types.ObjectId, ref: 'designer' },
 })
 
 

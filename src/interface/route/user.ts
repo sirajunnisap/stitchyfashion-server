@@ -8,7 +8,7 @@ import { getDesigner } from "../controller/designer/designerData";
 import { checkout, getPurchasedCourses, paymentUser, paymentforCourse } from "../controller/course/payment";
 import { getMessageBychatId, sendMessage } from "../controller/chat/sendMessage";
 import { accessChatController, fetchUserChatController } from "../controller/chat/userChat";
-import { getDesignerCourses } from "../controller/course/getCourses";
+import { getDesignerCourses, searchCourses } from "../controller/course/getCourses";
 
 const userRoute = express.Router();
 
@@ -31,7 +31,7 @@ userRoute.get('/checkout/:id',checkout)
 userRoute.post('/paymentforCourse',userAuthenticateToken,paymentforCourse)
 userRoute.get('/paymentedUser/:id',userAuthenticateToken,paymentUser)
 userRoute.get('/getPurchasedCourses',userAuthenticateToken,getPurchasedCourses)
-
+userRoute.get('/courses',searchCourses)
 userRoute.post('/access-chat',userAuthenticateToken,accessChatController)
 userRoute.get('/user-chat/:id',fetchUserChatController)
 

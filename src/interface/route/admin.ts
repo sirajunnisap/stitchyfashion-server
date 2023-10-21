@@ -7,8 +7,9 @@ import { getAllCourses } from "../controller/course/getCourses";
 import { adminAuthenticateToken } from "../middleware/authMiddleware";
 import { designerRegister } from "../controller/admin/addDesigner";
 import { addCategory, editCategory, getAllCategories } from "../controller/course/addCategory";
-import { CategoryDetails, CourseDetails } from "../controller/course/CourseDetails";
+import { CategoryDetails, CourseDetails ,getCourseseByCategory} from "../controller/course/CourseDetails";
 import { getUserMoreInfo } from "../controller/course/payment";
+import { get } from "mongoose";
 
 const adminRoute = express.Router();
 
@@ -31,4 +32,7 @@ adminRoute.get('/users',searchUsers);
 adminRoute.get('/designers',searchDesigners)
 adminRoute.get('/categoryDetails/:id',CategoryDetails)
 adminRoute.get(`/getUserMoreInfo/:id`,getUserMoreInfo)
+// adminRoute.get(`/getDesignerMoreInfo/:id`,getDesignerMoreInfo)
+
+adminRoute.get('/getCourseByCategory',getCourseseByCategory)
 export default adminRoute ;

@@ -4,5 +4,6 @@ export type Payment = {
      _id : string,
      amount : string,
      selectedCourse : ObjectId,
-     user : ObjectId
+     user : ObjectId,
+     designer:ObjectId,
 }

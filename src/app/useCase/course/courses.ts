@@ -7,3 +7,15 @@ export const getCoursesByCategoryId =(courseRepository:courseRepository)=>
         const courses = await courseRepository.getAllCoursesByCategoryId(categoryId)
         return courses
     }
+
+    export const searchUsecase = (courseRepository:courseRepository)=>
+  async(searchQuery:string,sortCriteria:{}):Promise<object[]|null>=>{
+    const course= await courseRepository.searchCourse(searchQuery,sortCriteria)
+    return course
+  }
+
+export const getCourseforDashUse = (courseRepository:courseRepository)=>
+async():Promise<any|null>=>{
+    const course = await courseRepository.getAllCoursesByCategory()
+    return course
+}

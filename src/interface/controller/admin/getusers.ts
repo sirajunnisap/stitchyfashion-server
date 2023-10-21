@@ -88,6 +88,8 @@ export const searchUsers = async (req: Request, res: Response) => {
         console.log(sortCriteria,"sortcriteria");
         
         const result = await searchUsecase(userRepository)(searchQuery, sortCriteria)
+        console.log(result,"resultsssssssss");
+        
         res.status(200).json(result)
 
     } catch (error: any) {

@@ -33,3 +33,9 @@ export const getpaymentUserUser = (paymentRepository:paymentRepository)=>{
     }
 }
 
+export const getPaymentedUsersforDash = (paymentRepository:paymentRepository)=>{
+    return async(designerId:any):Promise<any>=>{
+        const paymentedUsers = await paymentRepository.findPaymentedUsers(designerId)
+        return paymentedUsers
+    }
+}

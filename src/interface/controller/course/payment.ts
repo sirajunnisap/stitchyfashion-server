@@ -6,7 +6,7 @@ import { CustomRequest } from "../../middleware/authMiddleware";
 import { paymentModel } from "../../../infra/database/model/paymentModel";
 import { userModel } from "../../../infra/database/model/userModel";
 import paymentRepositoryImp from "../../../infra/repositories/payment/paymentRepository";
-import { addPaymentUse, getUsersfromPymt, getpaymentUserUser, purchasedCoursesUse } from "../../../app/useCase/payment/addPaymentUse";
+import { addPaymentUse, getUsersfromPymt, getpaymentUserUser, purchasedCoursesUse ,getPaymentedUsersforDash} from "../../../app/useCase/payment/addPaymentUse";
 import { Payment } from "../../../domain/entities/paymentModel";
 import { getUserById } from "../../../app/useCase/user/userProfile";
 import userRepositoryImp from "../../../infra/repositories/user/userRepository";
@@ -42,13 +42,14 @@ export const paymentforCourse =async (req:CustomRequest,res:Response)=>{
         
         
         const paymentData = req.body
-        // console.log(paymentData,"body data aaaaaaaaaaaa");
+        console.log(paymentData,"body data aaaaaaaaaaaa");
         
         
         const userId = req.user?.user._id
         
         // paymentData.course = courseId
         paymentData.user = userId
+        
 
         const addedPayment:Payment|null = await addPaymentUse(paymentRepository)(paymentData)
         console.log(addedPayment,"addedpapypemnt");
@@ -116,6 +117,15 @@ export const getPurchasedCourses = async(req:CustomRequest,res:Response)=>{
     }
 }
 
+export const getPyUsrsforDashboard = async(req:CustomRequest,res:Response)=>{
+    try {
+        const designerId = req.user?.designer._id as string;
+        const result = await getPaymentedUsersforDash(paymentRepository)(designerId)
+        res.status(200).json(result)
+    } catch (error) {
+        
+    }
+}
 
 export const getUserMoreInfo = async (req: Request, res: Response) => {
     try {
