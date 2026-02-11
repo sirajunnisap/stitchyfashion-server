@@ -6,7 +6,7 @@ import userRepositoryImp from "../../../infra/repositories/user/userRepository";
 import { signupUser } from "../../../app/useCase/user/userSignUp";
 import { AppError } from "../../../utils/errorHandle";
 import nodemailer from "nodemailer";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const db = userModel
 const userRepository = userRepositoryImp(db)
