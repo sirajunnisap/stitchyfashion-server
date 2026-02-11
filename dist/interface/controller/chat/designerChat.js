@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchDesignerChatController = exports.accessChatController = void 0;
 const chatModel_1 = require("../../../infra/database/model/chatModel");
@@ -15,7 +6,7 @@ const chatRepository_1 = require("../../../infra/repositories/chat/chatRepositor
 const accessChat_1 = require("../../../app/useCase/chat/accessChat");
 const db = chatModel_1.chatModel;
 const ChatRepository = (0, chatRepository_1.ChatRepositoryImp)(db);
-const accessChatController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const accessChatController = async (req, res) => {
     var _a;
     const designerIdObject = req.body;
     const userId = Object.keys(designerIdObject)[0];
@@ -26,24 +17,24 @@ const accessChatController = (req, res) => __awaiter(void 0, void 0, void 0, fun
             res.status(400).json({ message: "error" });
         }
         else {
-            const chat = yield (0, accessChat_1.accessChat)(ChatRepository)(userId, designerId);
+            const chat = await (0, accessChat_1.accessChat)(ChatRepository)(userId, designerId);
             console.log(chat, "chat acceesseddd");
             res.status(201).json(chat);
         }
     }
     catch (error) {
     }
-});
+};
 exports.accessChatController = accessChatController;
-const fetchDesignerChatController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const fetchDesignerChatController = async (req, res) => {
     const designerId = req.params.id;
     console.log(designerId, "designer for chatt");
     try {
-        const allChats = yield (0, accessChat_1.getChatsDsgrUseCase)(ChatRepository)(designerId);
+        const allChats = await (0, accessChat_1.getChatsDsgrUseCase)(ChatRepository)(designerId);
         res.status(202).json({ chats: allChats });
     }
     catch (error) {
         console.log(error);
     }
-});
+};
 exports.fetchDesignerChatController = fetchDesignerChatController;

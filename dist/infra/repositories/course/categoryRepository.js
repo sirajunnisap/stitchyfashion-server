@@ -1,18 +1,9 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const categoryRepositoryImp = (categoryModel) => {
-    const addCategory = (category) => __awaiter(void 0, void 0, void 0, function* () {
+    const addCategory = async (category) => {
         try {
-            const addedCategory = yield categoryModel.create(category);
+            const addedCategory = await categoryModel.create(category);
             // console.log(addedCategory,"added category");
             return addedCategory;
         }
@@ -20,24 +11,24 @@ const categoryRepositoryImp = (categoryModel) => {
             console.error('Error adding course:', error);
             throw error;
         }
-    });
-    const findCategoryByName = (name) => __awaiter(void 0, void 0, void 0, function* () {
+    };
+    const findCategoryByName = async (name) => {
         // const title = name.toUpperCase()
-        const category = yield categoryModel.findOne({ name });
+        const category = await categoryModel.findOne({ name });
         return category;
-    });
-    const getAllCategories = () => __awaiter(void 0, void 0, void 0, function* () {
-        const allCategories = yield categoryModel.find({});
+    };
+    const getAllCategories = async () => {
+        const allCategories = await categoryModel.find({});
         return allCategories;
-    });
-    const findCategoryById = (categoryId) => __awaiter(void 0, void 0, void 0, function* () {
-        const category = yield categoryModel.findById(categoryId);
+    };
+    const findCategoryById = async (categoryId) => {
+        const category = await categoryModel.findById(categoryId);
         return category;
-    });
-    const editCategory = (id, categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
-        const updatedCategory = yield categoryModel.findByIdAndUpdate(id, categoryDetails, { new: true });
+    };
+    const editCategory = async (id, categoryDetails) => {
+        const updatedCategory = await categoryModel.findByIdAndUpdate(id, categoryDetails, { new: true });
         return updatedCategory;
-    });
+    };
     return { addCategory, findCategoryByName, getAllCategories, findCategoryById, editCategory };
 };
 exports.default = categoryRepositoryImp;

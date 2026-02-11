@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -43,7 +34,7 @@ const designerRepository_1 = __importDefault(require("../../../infra/repositorie
 const addDesigner_1 = require("../../../app/useCase/admin/addDesigner");
 const db = designerModel_1.designerModel; //Instantiate MongoDB connection
 const designerRepository = (0, designerRepository_1.default)(db);
-const designerRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const designerRegister = async (req, res) => {
     try {
         const designer = req.body;
         // console.log(designer,"designer data for adding");
@@ -54,14 +45,14 @@ const designerRegister = (req, res) => __awaiter(void 0, void 0, void 0, functio
         //     }
         let password = Math.random().toString().substr(-10);
         console.log(password);
-        const createdDesigner = yield (0, addDesigner_1.addDesigner)(designerRepository)(designer);
+        const createdDesigner = await (0, addDesigner_1.addDesigner)(designerRepository)(designer);
         // console.log(createdDesigner,"designer creted");
         if (!createdDesigner) {
             res.status(500).json({ message: 'something went wrong' });
         }
         const designerEmail = createdDesigner.email;
         // console.log(designerEmail,"designer email for creating password");
-        const addPassword = yield designerModel_1.designerModel.findOneAndUpdate({ email: designerEmail }, { $set: { password: password } }, { new: true });
+        const addPassword = await designerModel_1.designerModel.findOneAndUpdate({ email: designerEmail }, { $set: { password: password } }, { new: true });
         // console.log(addPassword,"password add to the designer data");
         if (emailValidator.validate(designer.email)) {
             // console.log(`${designer.email} is a valid email address.`);
@@ -80,9 +71,9 @@ const designerRegister = (req, res) => __awaiter(void 0, void 0, void 0, functio
     catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message || 'somthing went wrong' });
     }
-});
+};
 exports.designerRegister = designerRegister;
-const sendVerifyEmail = (name, email, user_id, password) => __awaiter(void 0, void 0, void 0, function* () {
+const sendVerifyEmail = async (name, email, user_id, password) => {
     try {
         const transporter = nodemailer_1.default.createTransport({
             host: 'smtp.gmail.com',
@@ -99,18 +90,18 @@ const sendVerifyEmail = (name, email, user_id, password) => __awaiter(void 0, vo
             subject: 'Verification Email',
             html: `<p>Hi ${name},This is Your password for enter to the StitchY App : ${password} <br>, please click <a href="http://localhost:3000/designer/verifyEmail/${user_id}">here</a> to verify your email.</p>`
         };
-        const info = yield transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);
         console.log("Email has been sent:", info.response);
     }
     catch (error) {
         console.error("Error sending email:", error);
     }
-});
-const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+};
+const verifyEmail = async (req, res) => {
     try {
         const designerId = req.params.id;
         console.log(designerId);
-        const updateInfo = yield designerModel_1.designerModel.updateOne({ _id: designerId }, { $set: { isMailVerified: true } });
+        const updateInfo = await designerModel_1.designerModel.updateOne({ _id: designerId }, { $set: { isMailVerified: true } });
         if (updateInfo) {
             return res.json({ message: "email verified", updateInfo });
         }
@@ -118,5 +109,5 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         return res.status(500).json({ error: 'internal server error' });
     }
-});
+};
 exports.verifyEmail = verifyEmail;

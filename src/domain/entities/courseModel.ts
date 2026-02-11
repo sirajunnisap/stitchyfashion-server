@@ -17,5 +17,5 @@ export type Classes = {
   _id?:string,
   title:string,
   description:string,
-  video:string
+  video?:string
 }

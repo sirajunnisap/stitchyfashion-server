@@ -1,32 +1,23 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginGoogle = exports.loginUser = void 0;
 const errorHandle_1 = require("../../../utils/errorHandle");
 const userValidationHelper_1 = require("./userValidationHelper");
 const loginUser = (userRepository) => {
-    return (user) => __awaiter(void 0, void 0, void 0, function* () {
+    return async (user) => {
         const { email, password } = user;
-        const isUserExist = yield userRepository.findOneUserByEmail(email); //check the user is already exist
+        const isUserExist = await userRepository.findOneUserByEmail(email); //check the user is already exist
         if (!isUserExist) {
             throw new errorHandle_1.AppError('User is not exist', 404);
         }
         // console.log(isUserExist,"useer");
-        const isblockedUser = yield userRepository.findUserIsBlock(email);
+        const isblockedUser = await userRepository.findUserIsBlock(email);
         if (isblockedUser)
             throw new errorHandle_1.AppError('user is blocked by admin', 404);
-        const isMailVerifiedUser = yield userRepository.findUserIsMailVerified(email);
+        const isMailVerifiedUser = await userRepository.findUserIsMailVerified(email);
         if (isMailVerifiedUser)
             throw new errorHandle_1.AppError('you need to verify your email', 404);
-        const ispasswordCorrect = yield (0, userValidationHelper_1.passwordCompare)(password, isUserExist.password);
+        const ispasswordCorrect = await (0, userValidationHelper_1.passwordCompare)(password, isUserExist.password);
         if (!ispasswordCorrect) {
             // console.log("password incorrect");
             throw new errorHandle_1.AppError('incorrect password', 401);
@@ -34,24 +25,24 @@ const loginUser = (userRepository) => {
         else {
             // console.log("password matched");
         }
-        const userToken = yield (0, userValidationHelper_1.createToken)(isUserExist);
+        const userToken = await (0, userValidationHelper_1.createToken)(isUserExist);
         const verifiedUser = {
             token: userToken,
             userData: user
         };
         return verifiedUser;
-    });
+    };
 };
 exports.loginUser = loginUser;
 const loginGoogle = (userRepositoty) => {
-    return (user) => __awaiter(void 0, void 0, void 0, function* () {
+    return async (user) => {
         // console.log(user,"user data ");
         const { email, name, phone } = user;
         let verifiedUser;
-        const isUserExist = yield userRepositoty.findOneUserByEmail(email);
+        const isUserExist = await userRepositoty.findOneUserByEmail(email);
         if (!isUserExist) {
-            const newUser = yield userRepositoty.createUser(user);
-            const token = yield (0, userValidationHelper_1.createToken)(newUser);
+            const newUser = await userRepositoty.createUser(user);
+            const token = await (0, userValidationHelper_1.createToken)(newUser);
             verifiedUser = {
                 token: token,
                 userData: newUser,
@@ -60,12 +51,12 @@ const loginGoogle = (userRepositoty) => {
             // console.log(verifiedUser,"verified user with token ,data");
             return verifiedUser;
         }
-        const token = yield (0, userValidationHelper_1.createToken)(isUserExist);
+        const token = await (0, userValidationHelper_1.createToken)(isUserExist);
         verifiedUser = {
             token: token,
             userData: isUserExist,
         };
         return verifiedUser;
-    });
+    };
 };
 exports.loginGoogle = loginGoogle;

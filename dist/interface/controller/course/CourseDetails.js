@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -25,9 +16,9 @@ const db = courseModel_1.courseModel;
 const courseRepository = (0, courseRepository_1.default)(db);
 const dbcategory = categoryModel_1.categoryModel;
 const categoryRepository = (0, categoryRepository_1.default)(dbcategory);
-const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllCourses = async (req, res) => {
     try {
-        const allCourses = yield (0, addCourses_1.getCourses)(courseRepository)();
+        const allCourses = await (0, addCourses_1.getCourses)(courseRepository)();
         // console.log(allCourses);
         if (!allCourses) {
             throw new errorHandle_1.AppError("something went wrong", 400);
@@ -38,13 +29,13 @@ const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message || "something went wrong" });
     }
-});
+};
 exports.getAllCourses = getAllCourses;
-const CourseDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const CourseDetails = async (req, res) => {
     try {
         const courseId = req.params.id;
         // console.log(courseId);
-        const courseData = yield (0, addCourses_1.findOneById)(courseRepository)(courseId);
+        const courseData = await (0, addCourses_1.findOneById)(courseRepository)(courseId);
         // console.log(courseData);
         res.status(200).json(courseData);
     }
@@ -52,11 +43,11 @@ const CourseDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.error(error);
         res.status(500).json({ error: 'Internal server error.' });
     }
-});
+};
 exports.CourseDetails = CourseDetails;
-const getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllCategories = async (req, res) => {
     try {
-        const allCategories = yield (0, addCategory_1.getCategories)(categoryRepository)();
+        const allCategories = await (0, addCategory_1.getCategories)(categoryRepository)();
         if (!allCategories) {
             throw new errorHandle_1.AppError("something went wrong", 400);
         }
@@ -66,13 +57,13 @@ const getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, functio
     catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message || "something went wrong" });
     }
-});
+};
 exports.getAllCategories = getAllCategories;
-const CategoryDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const CategoryDetails = async (req, res) => {
     try {
         const categoryId = req.params.id;
         // console.log(categoryId,"categorid");
-        const categoryData = yield (0, courses_1.getCoursesByCategoryId)(courseRepository)(categoryId);
+        const categoryData = await (0, courses_1.getCoursesByCategoryId)(courseRepository)(categoryId);
         if (!categoryData)
             throw new errorHandle_1.AppError("something went wrong", 400);
         // console.log(categoryData);
@@ -83,15 +74,15 @@ const CategoryDetails = (req, res) => __awaiter(void 0, void 0, void 0, function
         // console.error(error);
         res.status(500).json({ error: 'Internal server error.' });
     }
-});
+};
 exports.CategoryDetails = CategoryDetails;
-const getCourseseByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getCourseseByCategory = async (req, res) => {
     try {
-        const courseData = yield (0, courses_1.getCourseforDashUse)(courseRepository)();
+        const courseData = await (0, courses_1.getCourseforDashUse)(courseRepository)();
         console.log(courseData, "courseDDDDDDDDDdddddata for         dashbour");
         res.status(200).json(courseData);
     }
     catch (error) {
     }
-});
+};
 exports.getCourseseByCategory = getCourseseByCategory;

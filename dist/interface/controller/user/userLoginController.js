@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -21,28 +12,28 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const db = userModel_1.userModel;
 const userRepository = (0, userRepository_1.default)(db);
-const userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const userLogin = async (req, res) => {
     try {
         const user = req.body;
         const { email, password } = user;
         if (!email || !password || /^\s*$/.test(email) || /^\s*$/.test(password)) {
             throw new errorHandle_1.AppError('All fields are required', 400);
         }
-        const userToken = yield (0, userLogin_1.loginUser)(userRepository)(user);
+        const userToken = await (0, userLogin_1.loginUser)(userRepository)(user);
         // console.log(userToken,"userToken in contoller");
         res.status(200).json(userToken);
     }
     catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message || 'something went wrong' });
     }
-});
+};
 exports.userLogin = userLogin;
-const loginWithGoogle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const loginWithGoogle = async (req, res) => {
     try {
         const user = req.body;
         // console.log(user,"user from body");
         // const {name,email,phone} = user
-        const token = yield (0, userLogin_1.loginGoogle)(userRepository)(user);
+        const token = await (0, userLogin_1.loginGoogle)(userRepository)(user);
         // console.log(token,"token form google ");
         if (token) {
             // console.log("loginwithgooglesuccessfull");
@@ -52,13 +43,13 @@ const loginWithGoogle = (req, res) => __awaiter(void 0, void 0, void 0, function
     catch (error) {
         res.status(500).json({ message: error.message || 'something went wrong' });
     }
-});
+};
 exports.loginWithGoogle = loginWithGoogle;
-const forgetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const forgetPassword = async (req, res) => {
     try {
         const { email } = req.body;
         //    console.log(email,"email for changepassword");
-        const user = yield userModel_1.userModel.findOne({ email });
+        const user = await userModel_1.userModel.findOne({ email });
         // console.log(user,"user for changepassword");
         if (!user) {
             // console.log("user is not exist ");
@@ -70,24 +61,24 @@ const forgetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         let otp = Math.random().toString().substr(-4);
         console.log(otp, "otp");
         sendVerifyEmail(user.email, "Stitchy mail password reset OTP :", otp);
-        const addOtpToDb = yield userModel_1.userModel.findOneAndUpdate({ email }, { $set: { otp: otp } }, { new: true });
+        const addOtpToDb = await userModel_1.userModel.findOneAndUpdate({ email }, { $set: { otp: otp } }, { new: true });
         //    console.log(addOtpToDb,"addotp to database ");
         return res.status(200).json({ message: "an otp has been sent to your account please verify" });
     }
     catch (error) {
         res.status(500).json({ message: "verification faied" });
     }
-});
+};
 exports.forgetPassword = forgetPassword;
-const verifyOtp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const verifyOtp = async (req, res) => {
     try {
         const { otp } = req.body;
         //   console.log(otp, "otp verification");
-        const userOtp = yield userModel_1.userModel.findOne({ otp });
+        const userOtp = await userModel_1.userModel.findOne({ otp });
         //   console.log(userOtp, "user find using otp");
         if (userOtp) {
             // console.log("User verified");
-            const deleteOtp = yield userModel_1.userModel.findOneAndUpdate({ otp }, { $set: { otp: '' } }, { new: true });
+            const deleteOtp = await userModel_1.userModel.findOneAndUpdate({ otp }, { $set: { otp: '' } }, { new: true });
             // console.log("OTP deleted", deleteOtp);
             if (deleteOtp) {
                 //   console.log(deleteOtp._id, "userId");
@@ -107,30 +98,30 @@ const verifyOtp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         //   console.error("Error:", error);
         res.status(500).json({ message: "Verification failed" });
     }
-});
+};
 exports.verifyOtp = verifyOtp;
-const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const changePassword = async (req, res) => {
     try {
         const { password, userId } = req.body;
         // console.log(password, userId, "new password and user id");
         // Find the user by their userId
-        const findUserById = yield userModel_1.userModel.findById(userId);
+        const findUserById = await userModel_1.userModel.findById(userId);
         // console.log(findUserById, "user for update password");
         if (!findUserById) {
             return res.status(404).json({ message: "User not found" });
         }
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const hashedPassword = await bcrypt_1.default.hash(password, 10);
         // console.log(hashedPassword, "hashed password for update");
-        const updatedUser = yield userModel_1.userModel.findOneAndUpdate({ _id: userId }, { $set: { password: hashedPassword } }, { new: true });
+        const updatedUser = await userModel_1.userModel.findOneAndUpdate({ _id: userId }, { $set: { password: hashedPassword } }, { new: true });
         // console.log(updatedUser, "updated user");
         return res.status(200).json({ message: "Password updated successfully" });
     }
     catch (error) {
         res.status(500).json({ message: "verification failed" });
     }
-});
+};
 exports.changePassword = changePassword;
-const sendVerifyEmail = (email, message, otp) => __awaiter(void 0, void 0, void 0, function* () {
+const sendVerifyEmail = async (email, message, otp) => {
     try {
         const transporter = nodemailer_1.default.createTransport({
             host: 'smtp.gmail.com',
@@ -147,10 +138,10 @@ const sendVerifyEmail = (email, message, otp) => __awaiter(void 0, void 0, void 
             subject: 'verification Email',
             html: `<p>Hi , ${message} <br/> ${otp}</p>`
         };
-        const info = yield transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);
         // console.log("Email has been sent:", info.response);
     }
     catch (error) {
         console.error("Error sending email:", error);
     }
-});
+};

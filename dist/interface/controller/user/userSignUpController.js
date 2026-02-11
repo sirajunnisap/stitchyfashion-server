@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -44,7 +35,7 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
 const emailValidator = __importStar(require("email-validator"));
 const db = userModel_1.userModel; //Instantiate MongoDB connection
 const userRepository = (0, userRepository_1.default)(db);
-const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const userSignup = async (req, res) => {
     try {
         const user = req.body;
         if (!user.name || !user.email || !user.password ||
@@ -57,7 +48,7 @@ const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             throw new errorHandle_1.AppError('password must be at least 6 digits', 400);
         }
         // console.log(user,'user details');
-        const createUser = yield (0, userSignUp_1.signupUser)(userRepository)(user);
+        const createUser = await (0, userSignUp_1.signupUser)(userRepository)(user);
         if (!createUser) {
             res.status(500).json({ message: 'something went wrong' });
         }
@@ -73,9 +64,9 @@ const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message || 'somthing went wrong' });
     }
-});
+};
 exports.userSignup = userSignup;
-const sendVerifyEmail = (name, email, user_id) => __awaiter(void 0, void 0, void 0, function* () {
+const sendVerifyEmail = async (name, email, user_id) => {
     try {
         const transporter = nodemailer_1.default.createTransport({
             host: 'smtp.gmail.com',
@@ -92,18 +83,18 @@ const sendVerifyEmail = (name, email, user_id) => __awaiter(void 0, void 0, void
             subject: 'verification Email',
             html: `<p>Hi ${name}, please click <a href="https://stitchy-inky.vercel.app/verifyEmail/${user_id}">here</a> to verify your email.</p>`
         };
-        const info = yield transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);
         console.log("Email has been sent:", info.response);
     }
     catch (error) {
         console.error("Error sending email:", error);
     }
-});
-const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+};
+const verifyEmail = async (req, res) => {
     try {
         const userId = req.params.id;
         console.log(userId, "userid in params");
-        const updateInfo = yield userModel_1.userModel.updateOne({ _id: userId }, { $set: { isMailVerified: true } });
+        const updateInfo = await userModel_1.userModel.updateOne({ _id: userId }, { $set: { isMailVerified: true } });
         if (updateInfo) {
             return res.json({ message: "email verified", updateInfo });
         }
@@ -111,5 +102,5 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         return res.status(500).json({ error: 'internal server error' });
     }
-});
+};
 exports.verifyEmail = verifyEmail;

@@ -1,20 +1,11 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const errorHandle_1 = require("../../../utils/errorHandle");
 const courseRepositoryImp = (courseModel) => {
-    const addCourse = (course) => __awaiter(void 0, void 0, void 0, function* () {
+    const addCourse = async (course) => {
         // console.log(course,"course DAta in repositery");
         try {
-            const addedCourse = yield courseModel.create(course);
+            const addedCourse = await courseModel.create(course);
             // console.log('Added course:', addedCourse);
             return addedCourse;
         }
@@ -22,8 +13,8 @@ const courseRepositoryImp = (courseModel) => {
             console.error('Error adding course:', error);
             throw error;
         }
-    });
-    const addingClass = (classData) => __awaiter(void 0, void 0, void 0, function* () {
+    };
+    const addingClass = async (classData) => {
         const courseId = classData._id;
         // console.log(courseId,"courseid");
         const { title, description, video } = classData;
@@ -31,23 +22,23 @@ const courseRepositoryImp = (courseModel) => {
             title, description, video
         };
         // console.log(newClass,"new class");
-        const findCourse = yield courseModel.findById({ _id: courseId });
+        const findCourse = await courseModel.findById({ _id: courseId });
         if (!findCourse) {
             throw new errorHandle_1.AppError('error ', 404);
         }
         // console.log(findCourse,"findCourse by id ");
         findCourse.classes.push(newClass);
-        const updateCourse = yield findCourse.save();
+        const updateCourse = await findCourse.save();
         // console.log(updateCourse,"upadate adddddddddd class to course");
         return updateCourse;
-    });
-    const findCourseByTitle = (title) => __awaiter(void 0, void 0, void 0, function* () {
-        const course = yield courseModel.findOne({ title });
+    };
+    const findCourseByTitle = async (title) => {
+        const course = await courseModel.findOne({ title });
         return course;
-    });
-    const findClassByTitle = (title) => __awaiter(void 0, void 0, void 0, function* () {
+    };
+    const findClassByTitle = async (title) => {
         try {
-            const course = yield courseModel.findOne({
+            const course = await courseModel.findOne({
                 "classes.title": title // Use $elemMatch to find a class with the specified title
             });
             if (course) {
@@ -60,65 +51,65 @@ const courseRepositoryImp = (courseModel) => {
             console.error(error);
             return null;
         }
-    });
-    const findCourseById = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
-        const course = yield courseModel
+    };
+    const findCourseById = async (courseId) => {
+        const course = await courseModel
             .findById(courseId)
             .populate("designer")
             .exec();
         // console.log(course,"course data in");
         return course;
-    });
-    const findOneCourse = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
-        const course = yield courseModel.findById(courseId);
+    };
+    const findOneCourse = async (courseId) => {
+        const course = await courseModel.findById(courseId);
         // console.log(course,"course data in");
         return course;
-    });
-    const getAllCoursesById = (designerId) => __awaiter(void 0, void 0, void 0, function* () {
-        const allCourses = yield courseModel.find({ designer: designerId });
+    };
+    const getAllCoursesById = async (designerId) => {
+        const allCourses = await courseModel.find({ designer: designerId });
         if (!allCourses)
             throw new errorHandle_1.AppError('Somthing went wrong ', 500);
         if (allCourses.length === 0) {
             throw new errorHandle_1.AppError('No courses found for the designer', 404);
         }
         return allCourses;
-    });
-    const getAllCoursesByCategoryId = (categoryId) => __awaiter(void 0, void 0, void 0, function* () {
-        const allCourses = yield courseModel.find({ category: categoryId });
+    };
+    const getAllCoursesByCategoryId = async (categoryId) => {
+        const allCourses = await courseModel.find({ category: categoryId });
         if (!allCourses)
             throw new errorHandle_1.AppError('Somthing went wrong ', 500);
         if (allCourses.length === 0) {
             throw new errorHandle_1.AppError('No courses found for the designer', 404);
         }
         return allCourses;
-    });
-    const getAllCourses = () => __awaiter(void 0, void 0, void 0, function* () {
-        const allCourses = yield courseModel.find({});
+    };
+    const getAllCourses = async () => {
+        const allCourses = await courseModel.find({});
         // console.log(allCourses,"courses list");
         return allCourses;
-    });
-    const updateCourseById = (id, CourseDetails) => __awaiter(void 0, void 0, void 0, function* () {
-        const course = yield courseModel.findByIdAndUpdate(id, CourseDetails, { new: true });
+    };
+    const updateCourseById = async (id, CourseDetails) => {
+        const course = await courseModel.findByIdAndUpdate(id, CourseDetails, { new: true });
         return course;
-    });
-    const unlistCourse = (id, action) => __awaiter(void 0, void 0, void 0, function* () {
+    };
+    const unlistCourse = async (id, action) => {
         let unlist;
         if (action === 'unlist')
             unlist = true;
         if (action === 'list')
             unlist = false;
-        const unlistedCourse = yield courseModel.findByIdAndUpdate(id, { unlist }, { new: true });
+        const unlistedCourse = await courseModel.findByIdAndUpdate(id, { unlist }, { new: true });
         if (!unlistedCourse)
             throw new errorHandle_1.AppError('something went wrong when unlist the course', 500);
         return unlist;
-    });
-    const searchCourse = (searchQuery, sortCriteria) => __awaiter(void 0, void 0, void 0, function* () {
+    };
+    const searchCourse = async (searchQuery, sortCriteria) => {
         console.log(searchQuery, "search inputtttttttt");
-        const searchresult = yield courseModel.find({ title: { $regex: searchQuery, $options: 'i' } }).sort(sortCriteria);
+        const searchresult = await courseModel.find({ title: { $regex: searchQuery, $options: 'i' } }).sort(sortCriteria);
         console.log(searchresult, "searchresult");
         return searchresult;
-    });
-    const getAllCoursesByCategory = () => __awaiter(void 0, void 0, void 0, function* () {
+    };
+    const getAllCoursesByCategory = async () => {
         const aggregationPipeline = [
             {
                 $lookup: {
@@ -139,10 +130,10 @@ const courseRepositoryImp = (courseModel) => {
                 },
             },
         ];
-        const groupedCourses = yield courseModel.aggregate(aggregationPipeline);
+        const groupedCourses = await courseModel.aggregate(aggregationPipeline);
         console.log(groupedCourses, "group courses in category");
         return groupedCourses;
-    });
+    };
     return { addCourse, findCourseById, getAllCoursesById, updateCourseById, unlistCourse, findCourseByTitle, getAllCourses, findOneCourse, addingClass, getAllCoursesByCategoryId, findClassByTitle, searchCourse, getAllCoursesByCategory };
 };
 exports.default = courseRepositoryImp;
