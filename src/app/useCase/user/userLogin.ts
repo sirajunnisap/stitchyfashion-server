@@ -19,21 +19,21 @@ export const loginUser = (userRepository:userRepository) =>{
 
         const isUserExist:userLogintype | null = await userRepository.findOneUserByEmail(email)  //check the user is already exist
         if(!isUserExist){
-            throw new AppError('User is not exist',404)
+            throw new AppError('Invalid email or password', 401)
         }
         
         // console.log(isUserExist,"useer");
         const isblockedUser = await userRepository.findUserIsBlock(email)
-        if(isblockedUser)throw new AppError('user is blocked by admin',404)
+        if(isblockedUser)throw new AppError('user is blocked by admin',403)
         
         const isMailVerifiedUser = await userRepository.findUserIsMailVerified(email)
-        if(isMailVerifiedUser)throw new AppError('you need to verify your email',404)
+        if(isMailVerifiedUser)throw new AppError('you need to verify your email',403)
         
         const ispasswordCorrect = await passwordCompare(password,isUserExist.password)
         if(!ispasswordCorrect){
             // console.log("password incorrect");
             
-            throw new AppError('incorrect password',401)
+            throw new AppError('Invalid email or password', 401)
         }else{
             // console.log("password matched");
             
