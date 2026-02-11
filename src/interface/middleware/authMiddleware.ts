@@ -3,7 +3,7 @@ import { Request,Response,NextFunction } from "express";
 
 
 export interface CustomRequest extends Request {
-    user?: any
+    user?: any ;
 }
 
 export const userAuthenticateToken  = (req:CustomRequest,res:Response,next:NextFunction)=>{
