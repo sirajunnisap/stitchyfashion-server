@@ -26,8 +26,8 @@ export const loginUser = (userRepository:userRepository) =>{
         const isblockedUser = await userRepository.findUserIsBlock(email)
         if(isblockedUser)throw new AppError('user is blocked by admin',403)
         
-        const isMailVerifiedUser = await userRepository.findUserIsMailVerified(email)
-        if(isMailVerifiedUser)throw new AppError('you need to verify your email',403)
+        // const isMailVerifiedUser = await userRepository.findUserIsMailVerified(email)
+        // if(isMailVerifiedUser)throw new AppError('you need to verify your email',403)
         
         const ispasswordCorrect = await passwordCompare(password,isUserExist.password)
         if(!ispasswordCorrect){
