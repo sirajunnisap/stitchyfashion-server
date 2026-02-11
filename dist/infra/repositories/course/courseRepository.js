@@ -113,9 +113,9 @@ const courseRepositoryImp = (courseModel) => {
         const aggregationPipeline = [
             {
                 $lookup: {
-                    from: 'categories',
-                    localField: 'category',
-                    foreignField: '_id',
+                    from: 'categories', // The name of the category collection in your database
+                    localField: 'category', // The field in courseModel that links to the category
+                    foreignField: '_id', // The field in categoryModel to link with
                     as: 'categoryData',
                 },
             },
@@ -124,8 +124,8 @@ const courseRepositoryImp = (courseModel) => {
             },
             {
                 $group: {
-                    _id: '$categoryData.name',
-                    categoryData: { $first: '$categoryData' },
+                    _id: '$categoryData.name', // Group by category name
+                    categoryData: { $first: '$categoryData' }, // Include the category data
                     courses: { $push: '$$ROOT' }, // Push all course documents into the "courses" array
                 },
             },

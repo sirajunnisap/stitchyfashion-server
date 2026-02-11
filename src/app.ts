@@ -63,9 +63,10 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
 app.use(errorHandler)
 
 
-const PORT: number = Number(process.env.PORT) || 4000
-const server: Server = app.listen(4000, () => console.log(`server is running ${PORT}`))
-
+const PORT: number = Number(process.env.PORT) || 4000;
+const server: Server = app.listen(PORT, () => 
+  console.log(`server is running ${PORT}`)
+);
 
 const io = require('socket.io')(server, {
     pingTimeout: 60000,

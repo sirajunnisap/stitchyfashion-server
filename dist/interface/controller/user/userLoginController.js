@@ -9,7 +9,7 @@ const userLogin_1 = require("../../../app/useCase/user/userLogin");
 const userRepository_1 = __importDefault(require("../../../infra/repositories/user/userRepository"));
 const errorHandle_1 = require("../../../utils/errorHandle");
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const db = userModel_1.userModel;
 const userRepository = (0, userRepository_1.default)(db);
 const userLogin = async (req, res) => {
@@ -110,7 +110,7 @@ const changePassword = async (req, res) => {
         if (!findUserById) {
             return res.status(404).json({ message: "User not found" });
         }
-        const hashedPassword = await bcrypt_1.default.hash(password, 10);
+        const hashedPassword = await bcryptjs_1.default.hash(password, 10);
         // console.log(hashedPassword, "hashed password for update");
         const updatedUser = await userModel_1.userModel.findOneAndUpdate({ _id: userId }, { $set: { password: hashedPassword } }, { new: true });
         // console.log(updatedUser, "updated user");
