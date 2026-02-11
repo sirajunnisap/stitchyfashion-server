@@ -9,10 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCoursesByCategoryId = void 0;
+exports.getCourseforDashUse = exports.searchUsecase = exports.getCoursesByCategoryId = void 0;
 const getCoursesByCategoryId = (courseRepository) => (categoryId) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(categoryId,"useCasecategoryID");
     const courses = yield courseRepository.getAllCoursesByCategoryId(categoryId);
     return courses;
 });
 exports.getCoursesByCategoryId = getCoursesByCategoryId;
+const searchUsecase = (courseRepository) => (searchQuery, sortCriteria) => __awaiter(void 0, void 0, void 0, function* () {
+    const course = yield courseRepository.searchCourse(searchQuery, sortCriteria);
+    return course;
+});
+exports.searchUsecase = searchUsecase;
+const getCourseforDashUse = (courseRepository) => () => __awaiter(void 0, void 0, void 0, function* () {
+    const course = yield courseRepository.getAllCoursesByCategory();
+    return course;
+});
+exports.getCourseforDashUse = getCourseforDashUse;

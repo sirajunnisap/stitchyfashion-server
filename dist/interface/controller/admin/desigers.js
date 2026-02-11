@@ -76,3 +76,12 @@ const searchDesigners = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.searchDesigners = searchDesigners;
+// export const getDesignerMoreInfo = async (req: Request, res: Response) => {
+//     try {
+//          const userId:any = req.params.id 
+//          const result = await purchasedCoursesUse(paymentRepository)(userId)
+//          res.status(200).json(result)
+//          return
+//     } catch (error) {
+//     }
+// }

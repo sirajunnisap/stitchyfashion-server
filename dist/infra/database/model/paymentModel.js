@@ -29,5 +29,6 @@ const paymentSchema = new mongoose_1.Schema({
     amount: { type: String },
     selectedCourse: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'course' },
     user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'user' },
+    designer: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'designer' },
 });
 exports.paymentModel = mongoose_1.default.connection.model('payment', paymentSchema);

@@ -112,6 +112,37 @@ const courseRepositoryImp = (courseModel) => {
             throw new errorHandle_1.AppError('something went wrong when unlist the course', 500);
         return unlist;
     });
-    return { addCourse, findCourseById, getAllCoursesById, updateCourseById, unlistCourse, findCourseByTitle, getAllCourses, findOneCourse, addingClass, getAllCoursesByCategoryId, findClassByTitle };
+    const searchCourse = (searchQuery, sortCriteria) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(searchQuery, "search inputtttttttt");
+        const searchresult = yield courseModel.find({ title: { $regex: searchQuery, $options: 'i' } }).sort(sortCriteria);
+        console.log(searchresult, "searchresult");
+        return searchresult;
+    });
+    const getAllCoursesByCategory = () => __awaiter(void 0, void 0, void 0, function* () {
+        const aggregationPipeline = [
+            {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'category',
+                    foreignField: '_id',
+                    as: 'categoryData',
+                },
+            },
+            {
+                $unwind: '$categoryData', // Unwind the categoryData array created by $lookup
+            },
+            {
+                $group: {
+                    _id: '$categoryData.name',
+                    categoryData: { $first: '$categoryData' },
+                    courses: { $push: '$$ROOT' }, // Push all course documents into the "courses" array
+                },
+            },
+        ];
+        const groupedCourses = yield courseModel.aggregate(aggregationPipeline);
+        console.log(groupedCourses, "group courses in category");
+        return groupedCourses;
+    });
+    return { addCourse, findCourseById, getAllCoursesById, updateCourseById, unlistCourse, findCourseByTitle, getAllCourses, findOneCourse, addingClass, getAllCoursesByCategoryId, findClassByTitle, searchCourse, getAllCoursesByCategory };
 };
 exports.default = courseRepositoryImp;

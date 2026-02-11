@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserMoreInfo = exports.getPurchasedCourses = exports.getPaymentedUsers = exports.paymentUser = exports.paymentforCourse = exports.checkout = void 0;
+exports.getUserMoreInfo = exports.getPyUsrsforDashboard = exports.getPurchasedCourses = exports.getPaymentedUsers = exports.paymentUser = exports.paymentforCourse = exports.checkout = void 0;
 const courseModel_1 = require("../../../infra/database/model/courseModel");
 const courseRepository_1 = __importDefault(require("../../../infra/repositories/course/courseRepository"));
 const addCourses_1 = require("../../../app/useCase/course/addCourses");
@@ -45,7 +45,7 @@ const paymentforCourse = (req, res) => __awaiter(void 0, void 0, void 0, functio
     var _a;
     try {
         const paymentData = req.body;
-        // console.log(paymentData,"body data aaaaaaaaaaaa");
+        console.log(paymentData, "body data aaaaaaaaaaaa");
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user._id;
         // paymentData.course = courseId
         paymentData.user = userId;
@@ -103,6 +103,17 @@ const getPurchasedCourses = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getPurchasedCourses = getPurchasedCourses;
+const getPyUsrsforDashboard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d;
+    try {
+        const designerId = (_d = req.user) === null || _d === void 0 ? void 0 : _d.designer._id;
+        const result = yield (0, addPaymentUse_1.getPaymentedUsersforDash)(paymentRepository)(designerId);
+        res.status(200).json(result);
+    }
+    catch (error) {
+    }
+});
+exports.getPyUsrsforDashboard = getPyUsrsforDashboard;
 const getUserMoreInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.params.id;

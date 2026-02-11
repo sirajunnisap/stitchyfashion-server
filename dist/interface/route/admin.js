@@ -34,4 +34,6 @@ adminRoute.get('/users', getusers_1.searchUsers);
 adminRoute.get('/designers', desigers_1.searchDesigners);
 adminRoute.get('/categoryDetails/:id', CourseDetails_1.CategoryDetails);
 adminRoute.get(`/getUserMoreInfo/:id`, payment_1.getUserMoreInfo);
+// adminRoute.get(`/getDesignerMoreInfo/:id`,getDesignerMoreInfo)
+adminRoute.get('/getCourseByCategory', CourseDetails_1.getCourseseByCategory);
 exports.default = adminRoute;

@@ -85,6 +85,7 @@ const searchUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             sortCriteria = {};
         console.log(sortCriteria, "sortcriteria");
         const result = yield (0, getUsers_1.searchUsecase)(userRepository)(searchQuery, sortCriteria);
+        console.log(result, "resultsssssssss");
         res.status(200).json(result);
     }
     catch (error) {

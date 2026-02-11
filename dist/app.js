@@ -17,9 +17,15 @@ const designer_1 = __importDefault(require("./interface/route/designer"));
 const app = (0, express_1.default)();
 //Enable CORS for all routes
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'https://stitchy-inky.vercel.app'],
+    origin: ['http://localhost:3000',
+        process.env.CLIENT_URL],
     // origin: "*"
 }));
+// app.use(cors({
+//     origin: ['http://localhost:3000', 
+//         'https://stitchy-inky.vercel.app'],
+//     // origin: "*"
+// }));
 app.use(express_1.default.json({ limit: '500mb' }));
 app.use(express_1.default.urlencoded({ extended: true, limit: '500mb' }));
 app.use((0, morgan_1.default)('dev'));

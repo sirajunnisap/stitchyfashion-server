@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CategoryDetails = exports.getAllCategories = exports.CourseDetails = exports.getAllCourses = void 0;
+exports.getCourseseByCategory = exports.CategoryDetails = exports.getAllCategories = exports.CourseDetails = exports.getAllCourses = void 0;
 const addCourses_1 = require("../../../app/useCase/course/addCourses");
 const courseModel_1 = require("../../../infra/database/model/courseModel");
 const courseRepository_1 = __importDefault(require("../../../infra/repositories/course/courseRepository"));
@@ -85,3 +85,13 @@ const CategoryDetails = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.CategoryDetails = CategoryDetails;
+const getCourseseByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const courseData = yield (0, courses_1.getCourseforDashUse)(courseRepository)();
+        console.log(courseData, "courseDDDDDDDDDdddddata for         dashbour");
+        res.status(200).json(courseData);
+    }
+    catch (error) {
+    }
+});
+exports.getCourseseByCategory = getCourseseByCategory;

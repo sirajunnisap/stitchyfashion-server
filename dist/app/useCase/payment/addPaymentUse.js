@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getpaymentUserUser = exports.purchasedCoursesUse = exports.getUsersfromPymt = exports.addPaymentUse = void 0;
+exports.getPaymentedUsersforDash = exports.getpaymentUserUser = exports.purchasedCoursesUse = exports.getUsersfromPymt = exports.addPaymentUse = void 0;
 const addPaymentUse = (paymentRepository) => {
     return (paymentData) => __awaiter(void 0, void 0, void 0, function* () {
         const addedPayment = yield paymentRepository.addPayment(paymentData);
@@ -39,3 +39,10 @@ const getpaymentUserUser = (paymentRepository) => {
     });
 };
 exports.getpaymentUserUser = getpaymentUserUser;
+const getPaymentedUsersforDash = (paymentRepository) => {
+    return (designerId) => __awaiter(void 0, void 0, void 0, function* () {
+        const paymentedUsers = yield paymentRepository.findPaymentedUsers(designerId);
+        return paymentedUsers;
+    });
+};
+exports.getPaymentedUsersforDash = getPaymentedUsersforDash;

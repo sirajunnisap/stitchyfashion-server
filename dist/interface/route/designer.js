@@ -39,4 +39,5 @@ designerRoute.get('/getUserData/:id', getusers_1.getUserData);
 designerRoute.post('/access-chat', authMiddleware_1.designerAuthenticateToken, designerChat_1.accessChatController);
 designerRoute.get('/getMsgByChatId/:id', authMiddleware_1.designerAuthenticateToken, sendMessage_1.getMessageBychatId);
 designerRoute.post('/sendMessageDsgr', authMiddleware_1.designerAuthenticateToken, sendMessage_1.sendMessageDsgr);
+designerRoute.get('/getPaymentedUsers', authMiddleware_1.designerAuthenticateToken, payment_1.getPyUsrsforDashboard);
 exports.default = designerRoute;

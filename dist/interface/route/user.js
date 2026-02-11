@@ -34,6 +34,7 @@ userRoute.get('/checkout/:id', payment_1.checkout);
 userRoute.post('/paymentforCourse', authMiddleware_1.userAuthenticateToken, payment_1.paymentforCourse);
 userRoute.get('/paymentedUser/:id', authMiddleware_1.userAuthenticateToken, payment_1.paymentUser);
 userRoute.get('/getPurchasedCourses', authMiddleware_1.userAuthenticateToken, payment_1.getPurchasedCourses);
+userRoute.get('/courses', getCourses_1.searchCourses);
 userRoute.post('/access-chat', authMiddleware_1.userAuthenticateToken, userChat_1.accessChatController);
 userRoute.get('/user-chat/:id', userChat_1.fetchUserChatController);
 userRoute.post('/sendMessage', authMiddleware_1.userAuthenticateToken, sendMessage_1.sendMessage);
